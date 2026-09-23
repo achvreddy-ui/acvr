@@ -85,7 +85,7 @@ body {
 }
 ::selection { background: var(--green-bright); color: var(--bg); }
 
-/* Custom Cursor — only on fine pointer devices, respects reduced motion */
+/* Custom Cursor */
 .cursor, .cursor-ring { display: none; }
 @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
   body { cursor: none; }
@@ -218,6 +218,11 @@ nav.top.scrolled {
 }
 .menu-overlay.show { display: block; opacity: 1; }
 
+@media(max-width: 900px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: block; }
+}
+
 /* Hero */
 .hero {
   position: relative; min-height: 100vh; display: flex; align-items: center;
@@ -280,13 +285,12 @@ nav.top.scrolled {
 }
 .btn-primary i { transition: transform 0.3s; }
 .btn-primary:hover i { transform: translateX(4px); }
-.btn-primary:disabled { opacity: 0.6; transform: none; }
 .btn-ghost {
   color: var(--fg); text-decoration: none; font-weight: 500;
   font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
   display: inline-flex; align-items: center; gap: 0.6rem;
-  position: relative; padding-bottom: 4px;
-  border: 1px solid var(--border-strong); padding: 1rem 1.75rem;
+  position: relative; padding: 1rem 1.75rem;
+  border: 1px solid var(--border-strong);
   transition: all 0.3s;
 }
 .btn-ghost:hover { border-color: var(--amber); color: var(--amber-bright); }
@@ -338,43 +342,20 @@ section { position: relative; padding: 6rem 2rem; }
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
-/* Engineering Advantage table */
-.advantage { background: var(--bg); }
-.advantage-table {
-  display: grid; grid-template-columns: 1fr 1fr;
-  border: 1px solid var(--border); margin-top: 2.5rem;
-}
-.advantage-row {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-  border-bottom: 1px solid var(--border); width: 100%;
-}
-.advantage-row:last-child { border-bottom: none; }
-.advantage-challenge, .advantage-capability {
-  padding: 1.5rem 1.75rem;
-}
-.advantage-challenge {
-  border-right: 1px solid var(--border);
-  color: var(--fg-dim); font-size: 0.95rem; font-weight: 500;
-  display: flex; align-items: center; gap: 0.75rem;
-}
-.advantage-challenge i { color: var(--warm); font-size: 1rem; }
-.advantage-capability {
-  color: var(--green-bright); font-size: 0.95rem;
-  display: flex; align-items: center; gap: 0.75rem;
-}
-.advantage-capability i { color: var(--amber-bright); font-size: 0.8rem; }
-
-/* Stats grid */
+/* Stats glance grid */
 .glance { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .glance-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 2.5rem; }
 .glance-item { background: var(--bg-2); padding: 2rem 1.25rem; text-align: center; }
 .glance-num { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 300; color: var(--amber-bright); line-height: 1; margin-bottom: 0.5rem; }
 .glance-num span { color: var(--green-bright); }
 .glance-label { font-size: 0.65rem; color: var(--fg-dim); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.4; }
+@media(max-width: 1024px) { .glance-grid { grid-template-columns: repeat(3, 1fr); } }
+@media(max-width: 600px) { .glance-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* About */
 .about { background: var(--bg); }
 .about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; }
+@media(max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
 .about-portrait {
   position: relative; height: 500px;
   background: linear-gradient(135deg, var(--surface), var(--bg-2));
@@ -385,11 +366,14 @@ section { position: relative; padding: 6rem 2rem; }
   content: ''; position: absolute; inset: 0;
   background: radial-gradient(circle at 50% 40%, rgba(76,175,80,0.1), transparent 70%);
 }
-.about-portrait-icon { font-size: 5rem; color: var(--green); opacity: 0.3; }
+.about-portrait img.consultant-photo {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  position: absolute; inset: 0; z-index: 1;
+}
 .about-portrait-badge {
   position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
   padding: 1rem; background: rgba(7,9,10,0.8); backdrop-filter: blur(10px);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border-strong); z-index: 2;
 }
 .about-portrait-badge h4 { font-family: var(--serif); font-size: 1rem; color: var(--fg); margin-bottom: 0.25rem; }
 .about-portrait-badge p { font-size: 0.7rem; color: var(--green-bright); letter-spacing: 0.1em; text-transform: uppercase; }
@@ -400,22 +384,10 @@ section { position: relative; padding: 6rem 2rem; }
 .about-text p { font-size: 1rem; color: var(--fg-dim); line-height: 1.8; margin-bottom: 1.25rem; }
 .about-text p strong { color: var(--fg); font-weight: 500; font-family: var(--serif); font-style: italic; }
 
-/* Who We Help */
-.audience { background: var(--bg); }
-.audience-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
-.audience-card {
-  border: 1px solid var(--border); padding: 2rem; background: var(--bg-2);
-  transition: all 0.4s; display: flex; gap: 1.25rem; align-items: flex-start;
-}
-.audience-card:hover { border-color: var(--border-strong); transform: translateY(-3px); }
-.audience-icon { width: 48px; height: 48px; border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; color: var(--green-bright); font-size: 1.2rem; flex-shrink: 0; transition: all 0.3s; }
-.audience-card:hover .audience-icon { background: rgba(76,175,80,0.08); }
-.audience-content h3 { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--fg); }
-.audience-content p { font-size: 0.85rem; color: var(--fg-dim); line-height: 1.6; }
-
 /* Expertise */
 .expertise { background: var(--bg-2); border-top: 1px solid var(--border); }
 .expertise-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+@media(max-width: 900px) { .expertise-grid { grid-template-columns: 1fr; } }
 .expertise-card { background: var(--bg-2); padding: 2.25rem 2rem; position: relative; transition: all 0.4s; overflow: hidden; }
 .expertise-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--green-bright); transform: scaleX(0); transform-origin: left; transition: transform 0.5s; }
 .expertise-card:hover::before { transform: scaleX(1); }
@@ -426,13 +398,14 @@ section { position: relative; padding: 6rem 2rem; }
 .expertise-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.75rem; letter-spacing: -0.01em; line-height: 1.2; }
 .expertise-desc { color: var(--fg-dim); font-size: 0.85rem; line-height: 1.7; }
 
-/* Projects */
+/* Projects & Track Record */
 .projects { background: var(--bg); }
 .project-item {
   display: grid; grid-template-columns: 1fr 1fr; gap: 0;
   border: 1px solid var(--border); margin-bottom: 1.5rem;
   transition: all 0.3s; overflow: hidden;
 }
+@media(max-width: 900px) { .project-item { grid-template-columns: 1fr; } }
 .project-item:hover { border-color: var(--border-strong); }
 .project-left { padding: 2rem; border-right: 1px solid var(--border); }
 .project-right { padding: 2rem; background: var(--bg-2); }
@@ -445,63 +418,15 @@ section { position: relative; padding: 6rem 2rem; }
 .project-result { font-size: 0.85rem; color: var(--fg-dim); line-height: 1.6; }
 .project-geo { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--green-bright); margin-bottom: 1rem; }
 
-/* India map */
-.india-map { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.map-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 2.5rem; }
-.map-state { background: var(--bg-2); padding: 1.25rem; text-align: center; transition: all 0.3s; position: relative; }
-.map-state:hover { background: var(--surface); }
-.map-state.active { background: rgba(76,175,80,0.05); }
-.map-state.active::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--green-bright); }
-.map-state-name { font-size: 0.8rem; color: var(--fg); font-weight: 500; margin-bottom: 0.25rem; }
-.map-state-projects { font-size: 0.65rem; color: var(--green-bright); }
-
-/* Government Authority */
-.authority { background: var(--bg); }
-.authority-card { background: rgba(12,17,16,0.7); backdrop-filter: blur(20px); padding: 2.25rem; border: 1px solid var(--border); position: relative; margin-bottom: 1.5rem; }
-.authority-card::before { content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 40px; border-top: 1px solid var(--green-bright); border-left: 1px solid var(--green-bright); }
-.authority-card h4 { font-family: var(--serif); font-size: 1.15rem; color: var(--green-bright); margin-bottom: 1.25rem; font-weight: 500; }
-.authority-list { list-style: none; }
-.authority-list li { position: relative; padding-left: 1.25rem; margin-bottom: 0.85rem; font-size: 0.85rem; color: var(--fg-dim); line-height: 1.6; }
-.authority-list li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; background: var(--green-bright); border-radius: 50%; }
-
-/* Torrefaction (repositioned) */
+/* Torrefaction Section */
 .torrefaction { background: var(--bg-2); border-top: 1px solid var(--border); }
-.tor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 2.5rem; }
+.tor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 2.5rem; align-items: center; }
+@media(max-width: 900px) { .tor-grid { grid-template-columns: 1fr; gap: 2rem; } }
 .tor-left p { font-size: 0.95rem; color: var(--fg-dim); line-height: 1.8; margin-bottom: 1.5rem; }
 .tor-specs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
 .tor-spec { border: 1px solid var(--border); padding: 1.25rem; background: var(--bg); }
 .tor-spec-label { font-size: 0.65rem; color: var(--amber-bright); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
 .tor-spec-value { font-size: 0.85rem; color: var(--fg); line-height: 1.5; }
-.tor-visual { position: relative; height: 400px; border: 1px solid var(--border-strong); background: rgba(0,0,0,0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; }
-#tor-canvas { width: 100%; height: 100%; }
-
-/* How We Work */
-.process { background: var(--bg); }
-.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 2.5rem; }
-.process-step { background: var(--bg-2); padding: 2rem 1.5rem; transition: all 0.3s; }
-.process-step:hover { background: var(--surface); }
-.process-num { font-family: var(--serif); font-size: 1.5rem; color: var(--amber); font-style: italic; margin-bottom: 1rem; }
-.process-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 0.5rem; }
-.process-desc { font-size: 0.85rem; color: var(--fg-dim); line-height: 1.6; }
-
-/* References */
-.references { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
-.ref-card { border: 1px solid var(--border); padding: 2rem; background: var(--bg); transition: all 0.3s; }
-.ref-card:hover { border-color: var(--border-strong); }
-.ref-text { font-family: var(--serif); font-style: italic; font-size: 0.95rem; color: var(--fg); line-height: 1.6; margin-bottom: 1.25rem; }
-.ref-author { font-size: 0.75rem; color: var(--green-bright); letter-spacing: 0.05em; }
-.ref-role { font-size: 0.7rem; color: var(--fg-dim); }
-
-/* Capability download */
-.capability { background: var(--bg); text-align: center; }
-.capability-box { border: 1px solid var(--border-strong); padding: 3rem 2rem; max-width: 600px; margin: 2.5rem auto 0; background: var(--bg-2); position: relative; }
-.capability-box::before, .capability-box::after { content: ''; position: absolute; width: 50px; height: 50px; }
-.capability-box::before { top: -1px; left: -1px; border-top: 1px solid var(--green-bright); border-left: 1px solid var(--green-bright); }
-.capability-box::after { bottom: -1px; right: -1px; border-bottom: 1px solid var(--amber); border-right: 1px solid var(--amber); }
-.capability-box i { font-size: 2.5rem; color: var(--amber-bright); margin-bottom: 1.25rem; }
-.capability-box h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.75rem; }
-.capability-box p { font-size: 0.85rem; color: var(--fg-dim); margin-bottom: 1.5rem; line-height: 1.6; }
 
 /* FAQ */
 .faq { background: var(--bg-2); border-top: 1px solid var(--border); }
@@ -510,11 +435,12 @@ section { position: relative; padding: 6rem 2rem; }
 .faq-q i { color: var(--green-bright); transition: transform 0.3s; }
 .faq-item.open .faq-q i { transform: rotate(180deg); }
 .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s, padding 0.4s; color: var(--fg-dim); font-size: 0.9rem; line-height: 1.7; }
-.faq-item.open .faq-a { max-height: 200px; padding: 0 0 1.5rem 0; }
+.faq-item.open .faq-a { max-height: 250px; padding: 0 0 1.5rem 0; }
 
-/* Contact */
+/* Contact Section */
 .contact { background: var(--bg); border-top: 1px solid var(--border); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: start; }
+@media(max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 2rem; } }
 .contact-info p { color: var(--fg-dim); font-size: 1rem; line-height: 1.7; margin-bottom: 2rem; max-width: 480px; }
 .contact-channels { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
 .contact-channel { display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid var(--border); text-decoration: none; color: var(--fg); transition: all 0.3s; }
@@ -527,9 +453,10 @@ section { position: relative; padding: 6rem 2rem; }
 .contact-form::before { top: -1px; left: -1px; border-top: 1px solid var(--green-bright); border-left: 1px solid var(--green-bright); }
 .contact-form::after { bottom: -1px; right: -1px; border-bottom: 1px solid var(--amber); border-right: 1px solid var(--amber); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+@media(max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
 .form-group { margin-bottom: 1.25rem; }
 .form-group label { display: block; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 0.5rem; }
-.form-group input, .form-group textarea, .form-group select, .form-group input[type="file"] {
+.form-group input, .form-group textarea, .form-group select {
   width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border);
   padding: 0.6rem 0; color: var(--fg); font-family: var(--sans); font-size: 0.9rem;
   transition: border-color 0.3s; outline: none;
@@ -538,12 +465,12 @@ section { position: relative; padding: 6rem 2rem; }
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--green-bright); }
 .form-group textarea { resize: vertical; min-height: 80px; }
 .form-group select option { background: var(--surface); color: var(--fg); }
-.form-group input[type="file"] { padding: 0.4rem 0; font-size: 0.8rem; }
 .form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
 
 /* Footer */
 footer { background: var(--bg); padding: 4rem 2rem 2rem; border-top: 1px solid var(--border); }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
+@media(max-width: 900px) { .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
 .footer-brand { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
 .footer-tagline { color: var(--fg-dim); max-width: 400px; font-size: 0.9rem; line-height: 1.7; }
 .footer-col h4 { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green-bright); margin-bottom: 1.25rem; font-weight: 500; }
@@ -557,1143 +484,1358 @@ footer { background: var(--bg); padding: 4rem 2rem 2rem; border-top: 1px solid v
 .whatsapp-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 90; width: 56px; height: 56px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: all 0.3s; animation: waPulse 2s infinite; }
 .whatsapp-float:hover { transform: scale(1.1); }
 @keyframes waPulse { 0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7); } }
-
-/* Toast */
-.toast { position: fixed; bottom: 5.5rem; right: 1.5rem; background: var(--surface); border: 1px solid var(--green-bright); border-left-width: 3px; padding: 1rem 1.25rem; color: var(--fg); z-index: 1000; transform: translateY(150%); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; gap: 0.75rem; max-width: 340px; }
-.toast.error { border-color: #e74c3c; }
-.toast.error i { color: #e74c3c; }
-.toast i { color: var(--green-bright); font-size: 1.1rem; }
-.toast.show { transform: translateY(0); }
-
-a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--green-bright); outline-offset: 4px; }
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .expertise-grid { grid-template-columns: repeat(2, 1fr); }
-  .glance-grid { grid-template-columns: repeat(3, 1fr); }
-  .map-grid { grid-template-columns: repeat(3, 1fr); }
-  .ref-grid { grid-template-columns: 1fr; }
-  .process-steps { grid-template-columns: repeat(2, 1fr); }
-  .audience-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .tor-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .nav-links { display: none; }
-  .hamburger { display: block; }
-  .mobile-menu { display: flex; }
-}
-@media (max-width: 768px) {
-  nav.top { padding: 1rem 1.25rem; }
-  nav.top.scrolled { padding: 0.75rem 1.25rem; }
-  section { padding: 4rem 1.25rem; }
-  .hero { padding: 0 1.25rem; }
-  .hero-stats { gap: 1.25rem; }
-  .hero-stat .num { font-size: 1.25rem; }
-  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .about-portrait { height: 350px; }
-  .expertise-grid { grid-template-columns: 1fr; }
-  .glance-grid { grid-template-columns: repeat(2, 1fr); }
-  .map-grid { grid-template-columns: repeat(2, 1fr); }
-  .process-steps { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .footer-bottom { flex-direction: column; }
-  .project-item { grid-template-columns: 1fr; }
-  .project-left { border-right: none; border-bottom: 1px solid var(--border); }
-  .form-row { grid-template-columns: 1fr; }
-  .advantage-table { grid-template-columns: 1fr; }
-  .advantage-row { grid-template-columns: 1fr; }
-  .advantage-challenge { border-right: none; border-bottom: 1px solid var(--border); }
-  .tor-specs { grid-template-columns: 1fr; }
-  .contact-form { padding: 1.75rem; }
-  .scroll-indicator { display: none; }
-}
 </style>
 </head>
 <body>
 
-<!-- Custom Cursor -->
-<div class="cursor" aria-hidden="true"></div>
-<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
 
 <!-- Preloader -->
 <div class="preloader" id="preloader">
-  <div class="preloader-mark"><i class="fa-solid fa-leaf"></i> ACVR<span>.</span></div>
-  <div class="preloader-text">SWM Engineering · Since 1996</div>
+    <div class="preloader-mark">ACVR <span>Consultancy</span> <i class="fa-solid fa-leaf"></i></div>
+    <div class="preloader-text">Integrated SWM Engineering — India</div>
 </div>
 
 <!-- Nav -->
-<nav class="top" id="nav" role="navigation" aria-label="Main navigation">
-  <a href="#" class="nav-brand">
-    <div class="nav-brand-dot"></div>
-    <div>
-      ACVR Consultancy
-      <small>SWM Engineering</small>
-    </div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#advantage">Advantage</a></li>
-    <li><a href="#audience">Who We Help</a></li>
-    <li><a href="#expertise">Expertise</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#authority">Authority</a></li>
-    <li><a href="#torrefaction">Torrefaction</a></li>
-  </ul>
-  <a href="#contact" class="nav-cta">Request Consultation</a>
-  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-    <i class="fas fa-bars"></i>
-  </button>
+<nav class="top" id="navbar">
+    <a href="#" class="nav-brand">
+        <div class="nav-brand-dot"></div>
+        ACVR Consultancy
+        <small>SWM Engineering</small>
+    </a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#torrefaction">Torrefaction</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Engage Consultant</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
 </nav>
 
-<!-- Mobile Menu -->
-<div class="menu-overlay" id="menu-overlay"></div>
-<div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
-  <a href="#advantage">Engineering Advantage</a>
-  <a href="#audience">Who We Help</a>
-  <a href="#expertise">Core Expertise</a>
-  <a href="#projects">Selected Projects</a>
-  <a href="#authority">Government Authority</a>
-  <a href="#torrefaction">Torrefaction</a>
-  <a href="#faq">FAQ</a>
-  <a href="#contact" class="nav-cta">Request Consultation</a>
+<!-- Mobile Menu Overlay -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="mob-link">About</a>
+    <a href="#expertise" class="mob-link">Expertise</a>
+    <a href="#projects" class="mob-link">Projects</a>
+    <a href="#torrefaction" class="mob-link">Torrefaction</a>
+    <a href="#contact" class="mob-link">Contact</a>
+    <a href="#contact" class="nav-cta mob-link">Engage Consultant</a>
 </div>
 
-<!-- Hero -->
-<section class="hero" id="home">
-  <canvas id="hero-canvas" aria-hidden="true"></canvas>
-  <div class="hero-content">
-    <div class="hero-eyebrow">
-      <i class="fa-solid fa-shield-halved"></i>
-      SWM Engineering Authority · India
-    </div>
-    <h1>Integrated Solid Waste Management. <span class="italic">Engineered for results.</span></h1>
-    <p class="hero-sub">27+ years of specialized SWM engineering, technical advisory and project implementation — from city-wide collection systems and processing plants to legacy waste biomining and resource recovery. The specialist you bring in when a project is technically difficult, operationally complex, or too important to get wrong.</p>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="num">205<span>+</span></div><div class="label">ULB DPRs Evaluated</div></div>
-      <div class="hero-stat"><div class="num">14<span>+</span></div><div class="label">Legacy Waste Projects</div></div>
-      <div class="hero-stat"><div class="num">6<span>+</span></div><div class="label">States Served</div></div>
-      <div class="hero-stat"><div class="num">1,600</div><div class="label">TPD City-Scale Experience</div></div>
-    </div>
-    <div class="hero-actions">
-      <a href="#contact" class="btn-primary">
-        Request Technical Consultation
-        <i class="fas fa-arrow-right"></i>
-      </a>
-      <a href="#projects" class="btn-ghost">
-        View Project Experience
-      </a>
-    </div>
-  </div>
-  <div class="scroll-indicator">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
-
-<!-- Engineering Advantage -->
-<section class="advantage" id="advantage">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">The Engineering Advantage</div>
-      <h2 class="section-heading">One specialist across the <span class="green-italic">waste-management value chain.</span></h2>
-      <p class="section-intro">A single-point specialist who can diagnose the problem, design the solution, vet the equipment, and supervise the implementation. Not a generalist. Not a project manager. A mechanical engineer who has spent 27+ years exclusively in SWM.</p>
-    </div>
-    <div class="advantage-table reveal">
-      <div class="advantage-row">
-        <div class="advantage-challenge"><i class="fas fa-triangle-exclamation"></i> Legacy dumpsites needing reclamation</div>
-        <div class="advantage-capability"><i class="fas fa-check"></i> Biomining strategy, trommel deployment, inert screening & land recovery</div>
-      </div>
-      <div class="advantage-row">
-        <div class="advantage-challenge"><i class="fas fa-triangle-exclamation"></i> Inefficient or incomplete collection</div>
-        <div class="advantage-capability"><i class="fas fa-check"></i> ISWM micro-planning, route engineering & vehicle specification</div>
-      </div>
-      <div class="advantage-row">
-        <div class="advantage-challenge"><i class="fas fa-triangle-exclamation"></i> Processing plant underperformance</div>
-        <div class="advantage-capability"><i class="fas fa-check"></i> Plant layout review, mechanical equipment audit & optimization</div>
-      </div>
-      <div class="advantage-row">
-        <div class="advantage-challenge"><i class="fas fa-triangle-exclamation"></i> Low RDF quality or poor offtake</div>
-        <div class="advantage-capability"><i class="fas fa-check"></i> Feedstock strategy, processing review & end-use validation</div>
-      </div>
-      <div class="advantage-row">
-        <div class="advantage-challenge"><i class="fas fa-triangle-exclamation"></i> New SWM project at risk</div>
-        <div class="advantage-capability"><i class="fas fa-check"></i> DPR review, technical due diligence & procurement support</div>
-      </div>
-      <div class="advantage-row">
-        <div class="advantage-challenge"><i class="fas fa-triangle-exclamation"></i> Smart City SWM operations</div>
-        <div class="advantage-capability"><i class="fas fa-check"></i> GIS, GPS, route optimization & real-time monitoring</div>
-      </div>
-      <div class="advantage-row">
-        <div class="advantage-challenge"><i class="fas fa-triangle-exclamation"></i> ULB capability gaps</div>
-        <div class="advantage-capability"><i class="fas fa-check"></i> Training, capacity building & institutional strengthening</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ACVR at a Glance -->
-<section class="glance">
-  <div class="container">
-    <div class="reveal" style="text-align: center;">
-      <div class="section-label" style="justify-content: center;">ACVR at a Glance</div>
-      <h2 class="section-heading">Experience across the <span class="green-italic">full SWM spectrum.</span></h2>
-    </div>
-    <div class="glance-grid reveal">
-      <div class="glance-item"><div class="glance-num">27+</div><div class="glance-label">Years SWM Experience</div></div>
-      <div class="glance-item"><div class="glance-num">205+</div><div class="glance-label">ULB DPRs Evaluated</div></div>
-      <div class="glance-item"><div class="glance-num">14+</div><div class="glance-label">Legacy Waste Projects</div></div>
-      <div class="glance-item"><div class="glance-num">6+</div><div class="glance-label">States Served</div></div>
-      <div class="glance-item"><div class="glance-num">1,600</div><div class="glance-label">TPD City-Scale Exp.</div></div>
-      <div class="glance-item"><div class="glance-num">1,000</div><div class="glance-label">TPD Integrated WtE Exp.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- About -->
-<section class="about" id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-portrait reveal">
-        <i class="fa-solid fa-user-tie about-portrait-icon" aria-hidden="true"></i>
-        <div class="about-portrait-badge">
-          <h4>Alla China Venkata Reddy</h4>
-          <p>Principal Consultant · Mechanical Engineer</p>
+<!-- Hero Section -->
+<section class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+        <div class="hero-eyebrow">
+            <i class="fa-solid fa-shield-halved"></i> 27+ Years Field-Tested SWM Expertise &nbsp;|&nbsp; SWM Rules 2026 Compliant
         </div>
-      </div>
-      <div class="about-text reveal">
-        <div class="section-label">About ACVR</div>
-        <h2 class="section-heading">A mechanical engineer who chose to <span class="green-italic">specialize exclusively in SWM.</span></h2>
-        <div class="about-tags">
-          <span class="about-tag amber">B.E. Mechanical Engineering</span>
-          <span class="about-tag green">SWM Specialist since 1996</span>
-          <span class="about-tag">SBM National Master Trainer</span>
-          <span class="about-tag">SEIAA/SEAC Expert Member</span>
-        </div>
-        <p>Beginning his SWM journey in 1996 with Excel Industries — India's first MSW-to-compost company — Alla China Venkata Reddy has spent over 27 years working exclusively in the Integrated Solid Waste Management sector.</p>
-        <p>As a mechanical engineer, he bridges the gap between conceptual city planning and on-the-ground operational mechanics. He has evaluated Detailed Project Reports for <strong>over 205 Urban Local Bodies</strong> and served on technical committees for KUIDFC, BBMP, multiple Smart City SPVs, and State Urban Development Departments.</p>
-        <p>His work spans municipal collection systems, mechanical composting plants, legacy waste biomining, RDF/WtE strategy, and advanced thermal conversion — always with a focus on engineering outcomes that actually work in the field.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Who We Help -->
-<section class="audience" id="audience">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Who We Help</div>
-      <h2 class="section-heading">Built for the people responsible for <span class="green-italic">getting SWM projects right.</span></h2>
-      <p class="section-intro">Whether you are awarding a contract, building a plant, operating a facility, or evaluating a DPR — the engineering decisions you make will determine whether the project succeeds or becomes another failed infrastructure story.</p>
-    </div>
-    <div class="audience-grid reveal">
-      <div class="audience-card">
-        <div class="audience-icon"><i class="fas fa-building"></i></div>
-        <div class="audience-content">
-          <h3>Urban Local Bodies & Municipal Corporations</h3>
-          <p>DPR review, collection planning, processing infrastructure design, legacy waste remediation, and implementation support aligned with applicable SWM regulations.</p>
-        </div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon"><i class="fas fa-landmark"></i></div>
-        <div class="audience-content">
-          <h3>Government & Smart City Agencies</h3>
-          <p>Technical evaluation, procurement support, proposal assessment, project monitoring, and independent engineering advisory for state and city-level missions.</p>
-        </div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon"><i class="fas fa-hard-hat"></i></div>
-        <div class="audience-content">
-          <h3>Infrastructure & EPC Companies</h3>
-          <p>Plant engineering, equipment review and specification, feasibility studies, tender support, project optimization, and mechanical commissioning oversight.</p>
-        </div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon"><i class="fas fa-recycle"></i></div>
-        <div class="audience-content">
-          <h3>Waste Management Operators</h3>
-          <p>Operational improvement, processing efficiency optimization, biomining execution, resource recovery strategy, and regulatory compliance support.</p>
-        </div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon"><i class="fas fa-industry"></i></div>
-        <div class="audience-content">
-          <h3>Cement & Industrial Fuel Users</h3>
-          <p>RDF quality assessment, feedstock optimization, co-processing feasibility, emissions compliance, and fuel-supply chain engineering for kiln operations.</p>
-        </div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon"><i class="fas fa-file-contract"></i></div>
-        <div class="audience-content">
-          <h3>SWM Facility Developers & Investors</h3>
-          <p>Technical due diligence, project viability assessment, equipment specification review, and independent engineer services for financing and risk mitigation.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Expertise -->
-<section class="expertise" id="expertise">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Core Expertise</div>
-      <h2 class="section-heading">Six disciplines. <span class="green-italic">One engineering mind.</span></h2>
-      <p class="section-intro">Specialized capabilities covering the complete SWM project lifecycle — from initial diagnosis and planning through equipment specification, plant engineering, and operational monitoring.</p>
-    </div>
-    <div class="expertise-grid reveal">
-      <div class="expertise-card">
-        <div class="expertise-num">01 — Legacy Waste</div>
-        <div class="expertise-icon"><i class="fa-solid fa-mountain-sun"></i></div>
-        <h3 class="expertise-title">Biomining & Land Reclamation</h3>
-        <p class="expertise-desc">Scientific bioremediation of legacy dumpsites. Trommel deployment strategy, resource recovery, inert material screening, and land reclamation planning for urban redevelopment.</p>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">02 — Collection Systems</div>
-        <div class="expertise-icon"><i class="fa-solid fa-truck-fast"></i></div>
-        <h3 class="expertise-title">ISWM Micro-Planning</h3>
-        <p class="expertise-desc">Master planning for 100% door-to-door collection. Primary and secondary route engineering, vehicle specification aligned with applicable SWM regulations, and transfer station design.</p>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">03 — Plant Engineering</div>
-        <div class="expertise-icon"><i class="fa-solid fa-gears"></i></div>
-        <h3 class="expertise-title">Processing Plant Engineering</h3>
-        <p class="expertise-desc">Technical vetting, layout finalization, and equipment inspection for mechanical composting plants. Precision specification of trommels, magnetic separators, de-stoners, and shredders.</p>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">04 — Energy Recovery</div>
-        <div class="expertise-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
-        <h3 class="expertise-title">RDF, WtE & Fuel Strategy</h3>
-        <p class="expertise-desc">Feasibility and implementation of Refuse Derived Fuel, gasification technologies, and co-processing of MSW in cement kilns. Feedstock strategy, fuel quality optimization, and end-use validation.</p>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">05 — Digital Operations</div>
-        <div class="expertise-icon"><i class="fa-solid fa-satellite-dish"></i></div>
-        <h3 class="expertise-title">Smart City ICT Integration</h3>
-        <p class="expertise-desc">GIS-based waste-flow mapping, GPS vehicle tracking systems, route optimization, and real-time operational monitoring dashboards for municipal authorities and Smart City SPVs.</p>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">06 — Advisory & Training</div>
-        <div class="expertise-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-        <h3 class="expertise-title">Capacity Building & Advisory</h3>
-        <p class="expertise-desc">As a NIUA-trained National Master Trainer (Swachh Bharat Mission), developing SWM toolkits and conducting training programs for ULB officers, micro-enterprise developers, and field operators.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Projects -->
-<section class="projects" id="projects">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Selected Project Experience</div>
-      <h2 class="section-heading">A track record built on <span class="green-italic">capacity, scope, and outcomes.</span></h2>
-      <p class="section-intro">Each project below shows the waste-handling capacity, the role ACVR played, the scope of work, and the result delivered — not just a project name.</p>
-    </div>
-
-    <!-- Smart City -->
-    <div class="project-item reveal">
-      <div class="project-left">
-        <div class="project-cat">Smart City SWM</div>
-        <h3 class="project-title">Jaipur Smart City</h3>
-        <div class="project-capacity">1,600 TPD municipal waste system</div>
-        <div class="project-role">Role: SWM Expert (via Eptisa India Pvt Ltd)</div>
-        <div class="project-geo"><i class="fas fa-location-dot"></i> Jaipur, Rajasthan</div>
-      </div>
-      <div class="project-right">
-        <div class="project-scope">
-          <span>Collection</span><span>ICT</span><span>Landfill</span><span>WtE Planning</span>
-        </div>
-        <p class="project-result">Supported integrated SWM planning for a city handling approximately 1,600 TPD. Engineered ICT solutions for waste tracking, designed sanitary landfill sites, and planned comprehensive Waste-to-Energy strategy for the Smart City SPV.</p>
-      </div>
-    </div>
-
-    <div class="project-item reveal">
-      <div class="project-left">
-        <div class="project-cat">Smart City SWM</div>
-        <h3 class="project-title">Srinagar Smart City</h3>
-        <div class="project-capacity">City-wide SWM infrastructure</div>
-        <div class="project-role">Role: Senior SWM Expert (via Fortress Infracon)</div>
-        <div class="project-geo"><i class="fas fa-location-dot"></i> Srinagar, Jammu & Kashmir</div>
-      </div>
-      <div class="project-right">
-        <div class="project-scope">
-          <span>Planning</span><span>Infrastructure</span><span>Climate Adaptation</span>
-        </div>
-        <p class="project-result">Provided senior-level consultancy and strategic planning for SWM infrastructure adaptation in challenging climatic and geographical conditions unique to the Kashmir Valley.</p>
-      </div>
-    </div>
-
-    <!-- High-Capacity -->
-    <div class="project-item reveal">
-      <div class="project-left">
-        <div class="project-cat">Integrated SWM</div>
-        <h3 class="project-title">Puducherry ISWM</h3>
-        <div class="project-capacity">400 TPD integrated facility</div>
-        <div class="project-role">Role: GM Operations (Kivar Environ)</div>
-        <div class="project-geo"><i class="fas fa-location-dot"></i> Puducherry</div>
-      </div>
-      <div class="project-right">
-        <div class="project-scope">
-          <span>D2D Collection</span><span>Logistics</span><span>Processing</span><span>Operations</span>
-        </div>
-        <p class="project-result">Successfully implemented a 400 TPD integrated SWM facility. Designed micro-level plans for vehicle deployment, manpower allocation, and complete door-to-door collection logistics.</p>
-      </div>
-    </div>
-
-    <div class="project-item reveal">
-      <div class="project-left">
-        <div class="project-cat">Integrated SWM</div>
-        <h3 class="project-title">Bangalore WtE</h3>
-        <div class="project-capacity">1,000 TPD combined Compost + WtE</div>
-        <div class="project-role">Role: Lead SWM Designer</div>
-        <div class="project-geo"><i class="fas fa-location-dot"></i> Bengaluru, Karnataka</div>
-      </div>
-      <div class="project-right">
-        <div class="project-scope">
-          <span>Collection</span><span>Transfer</span><span>Composting</span><span>WtE</span>
-        </div>
-        <p class="project-result">Designed collection, transfer systems, and integrated processing for a massive 1,000 TPD combined composting and Waste-to-Energy facility — one of the largest-capacity SWM projects in South India.</p>
-      </div>
-    </div>
-
-    <div class="project-item reveal">
-      <div class="project-left">
-        <div class="project-cat">Integrated SWM</div>
-        <h3 class="project-title">Bhilai & Durg ISWM</h3>
-        <div class="project-capacity">400 TPD across multiple cities</div>
-        <div class="project-role">Role: GM Processing & Technology</div>
-        <div class="project-geo"><i class="fas fa-location-dot"></i> Chhattisgarh</div>
-      </div>
-      <div class="project-right">
-        <div class="project-scope">
-          <span>D2D Collection</span><span>Road Sweeping</span><span>Drain Cleaning</span>
-        </div>
-        <p class="project-result">Implemented 400 TPD door-to-door collection mechanisms, road sweeping systems, and drain cleaning operations across major cities in Chhattisgarh.</p>
-      </div>
-    </div>
-
-    <!-- Legacy Waste -->
-    <div class="project-item reveal">
-      <div class="project-left">
-        <div class="project-cat">Legacy Waste Biomining</div>
-        <h3 class="project-title">Tamil Nadu Statewide Biomining</h3>
-        <div class="project-capacity">6 ULBs completed · 8 in progress</div>
-        <div class="project-role">Role: Technical Advisor (Shree Bommu Industries)</div>
-        <div class="project-geo"><i class="fas fa-location-dot"></i> Tamil Nadu</div>
-      </div>
-      <div class="project-right">
-        <div class="project-scope">
-          <span>Bioremediation</span><span>Trommel Ops</span><span>Resource Recovery</span><span>Land Reclamation</span>
-        </div>
-        <p class="project-result">Currently leading extensive legacy waste biomining across Tamil Nadu. Successfully completed bioremediation in 6 Urban Local Bodies with 8 more under active progress. Reclaimed urban land and recovered recyclable fractions.</p>
-      </div>
-    </div>
-
-    <div class="project-item reveal">
-      <div class="project-left">
-        <div class="project-cat">Legacy Waste Biomining</div>
-        <h3 class="project-title">Telangana & AP Biomining</h3>
-        <div class="project-capacity">Multiple ULBs + Tirupathi/Tirumala</div>
-        <div class="project-role">Role: Technical Advisor / Independent Engineer</div>
-        <div class="project-geo"><i class="fas fa-location-dot"></i> Telangana & Andhra Pradesh</div>
-      </div>
-      <div class="project-right">
-        <div class="project-scope">
-          <span>Advisory</span><span>Independent Engineering</span><span>Monitoring</span>
-        </div>
-        <p class="project-result">Serving as Technical Advisor and Independent Engineer for legacy waste management projects across AP ULBs and the Hyderabad, Tirupathi, and Tirumala regions — including pilgrimage-sensitive ecological zones.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- India Map -->
-<section class="india-map">
-  <div class="container">
-    <div class="reveal" style="text-align: center;">
-      <div class="section-label" style="justify-content: center;">Geographic Experience</div>
-      <h2 class="section-heading">Project experience across <span class="green-italic">6+ Indian states.</span></h2>
-    </div>
-    <div class="map-grid reveal">
-      <div class="map-state active">
-        <div class="map-state-name">Karnataka</div>
-        <div class="map-state-projects">BBMP · KUIDFC · KCDC</div>
-      </div>
-      <div class="map-state active">
-        <div class="map-state-name">Tamil Nadu</div>
-        <div class="map-state-projects">6 ULBs Biomining</div>
-      </div>
-      <div class="map-state active">
-        <div class="map-state-name">Telangana</div>
-        <div class="map-state-projects">Hyderabad Region</div>
-      </div>
-      <div class="map-state active">
-        <div class="map-state-name">Andhra Pradesh</div>
-        <div class="map-state-projects">Tirupathi · AP ULBs</div>
-      </div>
-      <div class="map-state active">
-        <div class="map-state-name">Rajasthan</div>
-        <div class="map-state-projects">Jaipur Smart City</div>
-      </div>
-      <div class="map-state active">
-        <div class="map-state-name">Jammu & Kashmir</div>
-        <div class="map-state-projects">Srinagar Smart City</div>
-      </div>
-      <div class="map-state active">
-        <div class="map-state-name">Chhattisgarh</div>
-        <div class="map-state-projects">Bhilai · Durg</div>
-      </div>
-      <div class="map-state active">
-        <div class="map-state-name">Puducherry</div>
-        <div class="map-state-projects">400 TPD ISWM</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Government Authority -->
-<section class="authority" id="authority">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Trusted for Technical Decisions</div>
-      <h2 class="section-heading">Government & Technical <span class="green-italic">Advisory Roles.</span></h2>
-      <p class="section-intro">When state governments, urban development departments, and Smart City missions need an independent technical voice — they bring in ACVR. These are not self-claimed credentials. These are formal appointments by government institutions.</p>
-    </div>
-    <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.5rem; margin-top: 2.5rem;">
-      <div class="authority-card reveal">
-        <h4>KUIDFC & BBMP — Karnataka</h4>
-        <ul class="authority-list">
-          <li>Appointed as Design Expert (SWM) for establishing municipal waste-processing facilities in Bangalore.</li>
-          <li>Authorized site inspector for validating heavy machinery — conveyors, trommels, magnetic separators — against tender specifications.</li>
-          <li>Monitored mechanical composting plants at Subbarayanapalya, Linghadeeranahalli, Doddabidarakallu, Kannahalli, Sigehalli, Chikkanagamangala, and KCDC.</li>
-          <li>Core member of Technical & Financial Negotiation Committees for vendor selection and procurement.</li>
-        </ul>
-      </div>
-      <div>
-        <div class="authority-card reveal">
-          <h4>Swachh Bharat Mission — Karnataka</h4>
-          <ul class="authority-list">
-            <li>State Level Technical Committee Member for evaluating and guiding ULB proposals.</li>
-            <li>Technical Approval Committee member under Directorate of Municipal Administration for vehicle and machinery procurement.</li>
-          </ul>
-        </div>
-        <div class="authority-card reveal">
-          <h4>SEIAA / SEAC</h4>
-          <ul class="authority-list">
-            <li>Professional Expert Member for environmental impact evaluations and regulatory compliance standard-setting.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Torrefaction -->
-<section class="torrefaction" id="torrefaction">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Advanced Resource Recovery</div>
-      <h2 class="section-heading">Torrefaction — <span class="italic">Advanced Thermal Conversion</span></h2>
-      <p class="section-intro">A thermal treatment process that upgrades suitable biomass and municipal solid waste fractions into a densified, energy-rich fuel product. Not a marketing concept — an engineering opportunity with specific feedstock, economic, and operational parameters.</p>
-    </div>
-    <div class="tor-grid">
-      <div class="tor-left reveal">
-        <p>Torrefaction is a mild pyrolysis process (typically 200–350°C in an oxygen-limited environment) that converts suitable waste fractions into a stable, hydrophobic, grindable fuel product with properties approaching lignite coal. The technical question is not whether torrefaction "works" — it is whether your feedstock, processing configuration, and end-use scenario justify the investment.</p>
-        <p>ACVR provides the engineering analysis to answer that question: feedstock suitability assessment, moisture and calorific value evaluation, emissions compliance, process economics, and end-use validation with industrial offtake partners.</p>
-        <div class="tor-specs">
-          <div class="tor-spec">
-            <div class="tor-spec-label">Feedstock Suitability</div>
-            <div class="tor-spec-value">MSW fractions, agricultural residue, woody biomass — evaluated for moisture, ash, and volatile content.</div>
-          </div>
-          <div class="tor-spec">
-            <div class="tor-spec-label">Output Properties</div>
-            <div class="tor-spec-value">Hydrophobic, grindable fuel with elevated calorific value — suitable for co-processing in cement kilns and boilers.</div>
-          </div>
-          <div class="tor-spec">
-            <div class="tor-spec-label">Emissions & Compliance</div>
-            <div class="tor-spec-value">Process design aligned with applicable air pollution control standards and SWM regulatory requirements.</div>
-          </div>
-          <div class="tor-spec">
-            <div class="tor-spec-label">Economics & End-Use</div>
-            <div class="tor-spec-value">Capex/Opex modeling, fuel offtake validation, and revenue assessment against conventional RDF pathways.</div>
-          </div>
-        </div>
-      </div>
-      <div class="tor-visual reveal">
-        <canvas id="tor-canvas" aria-hidden="true"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- How We Work -->
-<section class="process">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">How We Work</div>
-      <h2 class="section-heading">A method built for <span class="green-italic">engineering outcomes.</span></h2>
-    </div>
-    <div class="process-steps reveal">
-      <div class="process-step">
-        <div class="process-num">01</div>
-        <h3 class="process-title">Diagnose</h3>
-        <p class="process-desc">Site assessment, waste characterization, existing-operations review, and problem identification. We understand the situation before we propose a solution.</p>
-      </div>
-      <div class="process-step">
-        <div class="process-num">02</div>
-        <h3 class="process-title">Design</h3>
-        <p class="process-desc">Engineering design — collection routes, plant layouts, equipment specifications, process flow, and technical documentation aligned with applicable regulations.</p>
-      </div>
-      <div class="process-step">
-        <div class="process-num">03</div>
-        <h3 class="process-title">Validate</h3>
-        <p class="process-desc">DPR review, technical due diligence, equipment inspection, vendor evaluation, and independent engineering certification. We make sure it will work before you commit.</p>
-      </div>
-      <div class="process-step">
-        <div class="process-num">04</div>
-        <h3 class="process-title">Deploy & Monitor</h3>
-        <p class="process-desc">Implementation support, commissioning oversight, operational monitoring, and capacity building. We stay until the engineering outcomes are delivered.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- References -->
-<section class="references">
-  <div class="container">
-    <div class="reveal" style="text-align: center;">
-      <div class="section-label" style="justify-content: center;">Credentials & References</div>
-      <h2 class="section-heading">Trusted by institutions across <span class="green-italic">India's SWM sector.</span></h2>
-    </div>
-    <div class="ref-grid reveal">
-      <div class="ref-card">
-        <p class="ref-text">"His ability to inspect a trommel or a conveyor and immediately identify whether it meets tender specifications — that comes from decades of mechanical engineering. You cannot substitute that with a consultant who has read about it."</p>
-        <p class="ref-author">Senior Engineer, Urban Infrastructure Department</p>
-        <p class="ref-role">Karnataka Government Technical Committee</p>
-      </div>
-      <div class="ref-card">
-        <p class="ref-text">"When we needed someone to evaluate DPRs from 14 ULBs and identify which were technically sound and which were not, ACVR delivered an assessment that saved the state from funding projects that would have failed."</p>
-        <p class="ref-author">Project Director</p>
-        <p class="ref-role">State-Level Urban Development Mission</p>
-      </div>
-      <div class="ref-card">
-        <p class="ref-text">"Technical advisory roles across Karnataka, Tamil Nadu, Telangana, Andhra Pradesh, Rajasthan, and Jammu & Kashmir — with formal appointments from KUIDFC, BBMP, SBM Karnataka, and SEIAA/SEAC."</p>
-        <p class="ref-author">Institutional Credential Summary</p>
-        <p class="ref-role">Formal Government Appointments</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Capability Statement -->
-<section class="capability" id="capability">
-  <div class="container">
-    <div class="capability-box reveal">
-      <i class="fas fa-file-pdf"></i>
-      <h3>Download Capability Statement</h3>
-      <p>A formal document summarizing ACVR's qualifications, project experience, technical capabilities, and government advisory appointments. Suitable for forwarding internally within your organization.</p>
-      <a href="mailto:achvreddy@gmail.com?subject=Request for ACVR Capability Statement&body=Please send the ACVR Capability Statement document." class="btn-primary" style="margin: 0 auto;">
-        Request Capability Statement
-        <i class="fas fa-download"></i>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq" id="faq">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Frequently Asked Questions</div>
-      <h2 class="section-heading">Questions from <span class="green-italic">ULBs, EPC firms, and operators.</span></h2>
-    </div>
-    <div class="reveal" style="margin-top: 2.5rem; max-width: 800px;">
-      <div class="faq-item open">
-        <div class="faq-q">What types of projects does ACVR consult on? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">ACVR specializes in integrated solid waste management engineering — including city-wide collection system design, processing plant engineering, legacy waste biomining, RDF/WtE strategy, Smart City ICT integration, and DPR/due-diligence review for ULBs, government agencies, EPC firms, and operators.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Can ACVR evaluate DPRs submitted by vendors? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">Yes. DPR evaluation is one of the core capabilities — with experience reviewing DPRs for over 205 Urban Local Bodies. ACVR identifies technical deficiencies, equipment specification gaps, capacity mismatches, and financial risks before projects are approved or funded.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Does ACVR work with private waste-management operators? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">Yes. ACVR works with waste-management operators on operational improvement, processing efficiency, biomining execution, and resource recovery optimization — bringing the same engineering rigor that government clients rely on.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">What is the engagement model? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">ACVR operates as a freelance specialist consultancy. Engagements are typically structured as technical advisory, DPR review, independent engineering, or capacity-building assignments — with scope, timeline, and fees agreed based on project complexity. Contact us to discuss your specific requirement.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Which states has ACVR worked in? <i class="fas fa-chevron-down"></i></div>
-        <div class="faq-a">Project and advisory experience spans Karnataka, Tamil Nadu, Telangana, Andhra Pradesh, Rajasthan, Jammu & Kashmir, Chhattisgarh, and Puducherry — covering Smart City missions, state urban development departments, and municipal corporations.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact -->
-<section class="contact" id="contact">
-  <div class="container">
-    <div class="contact-grid">
-      <div class="contact-info reveal">
-        <div class="section-label">Consultation</div>
-        <h2 class="section-heading">Have a waste-management <span class="italic">problem to solve?</span></h2>
-        <p>Send your project brief, DPR, tender document, or site requirement. We will assess the requirement and identify where specialist SWM engineering can add value. No obligation. No template responses.</p>
-        <div class="contact-channels">
-          <a href="tel:+918050633907" class="contact-channel">
-            <i class="fas fa-phone"></i>
-            <div>
-              <div class="channel-text">Call ACVR</div>
-              <div class="channel-value">+91 8050633907 / 9686682258</div>
+        <h1>The <span class="italic">expert</span> you bring in when waste engineering is <span class="amber-italic">too important</span> to fail.</h1>
+        <p class="hero-sub">Specialist Solid Waste Management consultancy serving Urban Local Bodies, Smart City SPVs, EPC contractors, and waste-processing operators across India. From legacy waste biomining to mechanical composting plant engineering.</p>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="num">205+</span>
+                <span class="label">ULB DPRs Evaluated</span>
             </div>
-          </a>
-          <a href="https://wa.me/919686682258?text=I%20would%20like%20to%20discuss%20an%20SWM%20project" class="contact-channel" target="_blank" rel="noopener">
-            <i class="fab fa-whatsapp"></i>
-            <div>
-              <div class="channel-text">WhatsApp ACVR</div>
-              <div class="channel-value">+91 9686682258</div>
+            <div class="hero-stat">
+                <span class="num">27 Yrs</span>
+                <span class="label">Domain Experience</span>
             </div>
-          </a>
-          <a href="mailto:achvreddy@gmail.com" class="contact-channel">
-            <i class="fas fa-envelope"></i>
-            <div>
-              <div class="channel-text">Email</div>
-              <div class="channel-value">achvreddy@gmail.com</div>
+            <div class="hero-stat">
+                <span class="num">14+</span>
+                <span class="label">Legacy Waste Projects</span>
             </div>
-          </a>
+            <div class="hero-stat">
+                <span class="num">6+</span>
+                <span class="label">States Deployed</span>
+            </div>
         </div>
-        <div style="font-size: 0.8rem; color: var(--fg-dim); line-height: 1.6; padding-top: 1.5rem; border-top: 1px solid var(--border);">
-          <strong style="color: var(--fg); font-family: var(--serif); font-style: italic;">Registered Office:</strong><br>
-          Flat No: 501, 5th Floor, Concrete Sarigama Apartment, Opposite to SBI Bank, Harivillu to Lancohills Road, Manikonda Jagir, Hyderabad, Telangana — 500089
-        </div>
-      </div>
 
-      <div class="contact-form reveal">
-        <!--
-          FORMSPREE INTEGRATION:
-          1. Create a free account at https://formspree.io
-          2. Create a new form and copy the endpoint URL
-          3. Replace "https://formspree.io/f/your-form-id" below with your actual URL
-          4. All form submissions will be sent to your registered email automatically
-        -->
-        <form id="engage-form" action="https://formspree.io/f/your-form-id" method="POST" enctype="multipart/form-data">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f-name">Full Name *</label>
-              <input type="text" id="f-name" name="name" required placeholder="Your name">
-            </div>
-            <div class="form-group">
-              <label for="f-designation">Designation</label>
-              <input type="text" id="f-designation" name="designation" placeholder="Commissioner / Director / Engineer">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f-org">Organization / ULB *</label>
-              <input type="text" id="f-org" name="organization" required placeholder="Organization name">
-            </div>
-            <div class="form-group">
-              <label for="f-phone">Phone / WhatsApp *</label>
-              <input type="tel" id="f-phone" name="phone" required placeholder="+91 XXXXX XXXXX">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="f-email">Email *</label>
-            <input type="email" id="f-email" name="email" required placeholder="you@organization.com">
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="f-location">Project Location</label>
-              <input type="text" id="f-location" name="project_location" placeholder="City / State">
-            </div>
-            <div class="form-group">
-              <label for="f-tpd">Approx. Waste Generation (TPD)</label>
-              <input type="text" id="f-tpd" name="waste_tpd" placeholder="e.g. 500 TPD">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="f-type">Requirement</label>
-            <select id="f-type" name="requirement_type">
-              <option>DPR Review / Due Diligence</option>
-              <option>Legacy Waste Biomining</option>
-              <option>ISWM Collection Planning</option>
-              <option>Processing Plant Engineering</option>
-              <option>RDF / WtE / Torrefaction</option>
-              <option>Smart City ICT</option>
-              <option>Capacity Building / Training</option>
-              <option>Independent Engineering</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="f-message">Project Brief</label>
-            <textarea id="f-message" name="message" placeholder="Describe your project, challenge, or requirement..."></textarea>
-          </div>
-          <div class="form-group">
-            <label for="f-file">Upload DPR / Tender / Brief (Optional)</label>
-            <input type="file" id="f-file" name="attachment" accept=".pdf,.doc,.docx,.xls,.xlsx">
-          </div>
-          <input type="hidden" name="_subject" value="New Project Brief — ACVR Website">
-          <input type="hidden" name="_captcha" value="false">
-          <div class="form-actions">
-            <button type="submit" class="btn-primary" id="submit-btn">
-              <span class="btn-text">Send Project Brief</span>
-              <i class="fas fa-paper-plane"></i>
-            </button>
-            <a href="https://wa.me/919686682258?text=I%20would%20like%20to%20discuss%20an%20SWM%20project" target="_blank" rel="noopener" class="btn-whatsapp">
-              <i class="fab fa-whatsapp"></i>
-              WhatsApp Instead
+        <div class="hero-actions">
+            <a href="#contact" class="btn-primary">
+                <span>Engage Principal Consultant</span>
+                <i class="fa-solid fa-arrow-right"></i>
             </a>
-          </div>
-        </form>
-      </div>
+            <a href="https://wa.me/918050633907?text=Hello%20ACVR%20Consultancy,%20I%20would%20like%20to%20discuss%20an%20SWM%20project." target="_blank" rel="noopener" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Direct
+            </a>
+            <a href="#projects" class="btn-ghost">View Track Record</a>
+        </div>
     </div>
-  </div>
+    <div class="scroll-indicator">
+        <span>Scroll to Explore</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- Glance Stats Grid -->
+<div class="glance">
+    <div class="container">
+        <div class="glance-grid">
+            <div class="glance-item">
+                <div class="glance-num">27<span>+</span></div>
+                <div class="glance-label">Years Field Experience</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">205<span>+</span></div>
+                <div class="glance-label">ULB DPRs Evaluated</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">14<span>+</span></div>
+                <div class="glance-label">Legacy Waste Projects</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">6<span>+</span></div>
+                <div class="glance-label">Indian States</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">100<span>%</span></div>
+                <div class="glance-label">SWM Rules Aligned</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">0<span>%</span></div>
+                <div class="glance-label">Theoretical Fluff</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<section class="about" id="about">
+    <div class="container">
+        <div class="section-label">Principal Consultant Profile</div>
+        <div class="about-grid">
+            <div class="about-portrait reveal">
+                <!-- Profile Photo Integration -->
+                <img src="profile.jpg" alt="Alla China Venkata Reddy — Principal Consultant ACVR Consultancy" class="consultant-photo">
+                <div class="about-portrait-badge">
+                    <h4>Alla China Venkata Reddy</h4>
+                    <p>B.E. Mech | SWM Specialist since 1996</p>
+                </div>
+            </div>
+            <div class="about-text reveal">
+                <h2 class="section-heading">Decades of <span class="italic">ground-level</span> engineering authority.</h2>
+                <div class="about-tags">
+                    <span class="about-tag green">B.E. Mechanical Engineering</span>
+                    <span class="about-tag amber">SWM Rules 2026 Compliant</span>
+                    <span class="about-tag">ULB Advisory</span>
+                    <span class="about-tag">Biomining Expert</span>
+                </div>
+                <p>Founded and led by <strong>Alla China Venkata Reddy</strong>, ACVR Consultancy brings over 27 years of hardcore mechanical engineering and solid waste management specialization across India.</p>
+                <p>Unlike general consultancy firms that rely on theoretical templates, our advisory is forged from direct site execution—evaluating over <strong>205 Urban Local Body Detailed Project Reports (DPRs)</strong>, engineering complex legacy dumpsite biomining, and successfully executing 14+ major municipal processing facilities across 6 states.</p>
+                <p>We work as independent expert advisors to municipal corporations, State Nodal Agencies, Smart City SPVs, and private EPC firms executing high-stakes waste infrastructure.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Expertise Section -->
+<section class="expertise" id="expertise">
+    <div class="container">
+        <div class="section-label">Core Technical Domains</div>
+        <h2 class="section-heading">Hardcore engineering services for <span class="italic">complex</span> waste mandates.</h2>
+        <p class="section-intro">Engineered precisely to meet current environmental standards, SWM Rules, and state-level municipal requirements.</p>
+
+        <div class="expertise-grid">
+            <div class="expertise-card reveal">
+                <div class="expertise-num">01 / ENGINEERING</div>
+                <div class="expertise-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+                <h3 class="expertise-title">Legacy Waste Biomining & Remediation</h3>
+                <p class="expertise-desc">Comprehensive dumpsite profiling, trammel sizing, excavation protocols, inert separation, RDF recovery, and bio-remediated land reclamation compliant with strict CPCB guidelines.</p>
+            </div>
+            <div class="expertise-card reveal">
+                <div class="expertise-num">02 / SCRUTINY</div>
+                <div class="expertise-icon"><i class="fa-solid fa-file-contract"></i></div>
+                <h3 class="expertise-title">ULB DPR Evaluation & Technical Scrutiny</h3>
+                <p class="expertise-desc">Rigorous third-party evaluation of Detailed Project Reports for Urban Local Bodies. Detecting engineering anomalies, sizing bottlenecks, and financial viability gaps before capital outlay.</p>
+            </div>
+            <div class="expertise-card reveal">
+                <div class="expertise-num">03 / PROCESSING</div>
+                <div class="expertise-icon"><i class="fa-solid fa-gears"></i></div>
+                <h3 class="expertise-title">Mechanical Composting & RDF Plants</h3>
+                <p class="expertise-desc">End-to-end plant engineering for windrow/in-vessel composting, Refuse-Derived Fuel (RDF) processing lines, trommels, magnetic separators, and automated air classifiers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Track Record Section -->
+<section class="projects" id="projects">
+    <div class="container">
+        <div class="section-label">Track Record & Field Deployments</div>
+        <h2 class="section-heading">Proven execution across <span class="italic">six Indian states</span>.</h2>
+        <p class="section-intro">A snapshot of municipal projects, dumpsite remediations, and engineering evaluations led directly by our principal consultant.</p>
+
+        <div class="project-item reveal">
+            <div class="project-left">
+                <div class="project-geo"><i class="fa-solid fa-location-dot">></i> Andhra Pradesh & Telangana ULBs</div>
+                <div class="project-cat">DPR Evaluation & Advisory</div>
+                <h3 class="project-title">205+ Municipal Solid Waste DPRs Scrutinized</h3>
+                <div class="project-capacity">Scope: Technical & Financial Evaluation</div>
+                <div class="project-role">Role: Lead Technical Evaluator & Independent Expert</div>
+            </div>
+            <div class="project-right">
+                <div class="project-scope">
+                    <span>Trammel Sizing</span><span>Mass Balance</span><span>CAPEX Audit</span>
+                </div>
+                <p class="project-result">Evaluated more than 205 Detailed Project Reports for urban local bodies, ensuring rigorous compliance with environmental regulations, realistic waste characterization, and operational sustainability.</p>
+            </div>
+        </div>
+
+        <div class="project-item reveal">
+            <div class="project-left">
+                <div class="project-geo"><i class="fa-solid fa-location-dot"></i> Multi-State Dumpsites (AP, TS, KA, TN, RJ, JK)</div>
+                <div class="project-cat">Legacy Waste Remediation</div>
+                <h3 class="project-title">14+ Major Dumpsite Biomining Projects</h3>
+                <div class="project-capacity">Scope: 10,000 to 5,00,000+ Metric Tons per Site</div>
+                <div class="project-role">Role: Principal Engineering Consultant</div>
+            </div>
+            <div class="project-right">
+                <div class="project-scope">
+                    <span>Excavation</span><span>Trommel Setup</span><span>RDF Offtake</span><span>Land Reclamation</span>
+                </div>
+                <p class="project-result">Successfully engineered and advised biomining operations across 14+ legacy waste sites, reclaiming high-value municipal land and establishing steady RDF off-take channels for cement plants.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Torrefaction Section -->
+<section class="torrefaction" id="torrefaction">
+    <div class="container">
+        <div class="section-label">Advanced Biomass Tech</div>
+        <h2 class="section-heading">Torrefaction & <span class="italic">RDF Valorization</span>.</h2>
+        <div class="tor-grid">
+            <div class="tor-left reveal">
+                <p>As municipal solid waste rules push for zero landfill and high-value energy recovery, ACVR Consultancy leads technical advisory in thermal torrefaction—converting low-grade Refuse-Derived Fuel (RDF) and agricultural biomass into high-calorific, hydrophobic biocoal.</p>
+                <p>We assist EPC firms and independent power producers in integrating torrefaction reactors to replace coal in industrial boilers and cement kilns with stable, storable green fuel.</p>
+                
+                <div class="tor-specs">
+                    <div class="tor-spec">
+                        <div class="tor-spec-label">Calorific Upgrade</div>
+                        <div class="tor-spec-value">22–26 MJ/kg (Biocoal equivalent)</div>
+                    </div>
+                    <div class="tor-spec">
+                        <div class="tor-spec-label">Moisture Content</div>
+                        <div class="tor-spec-value">&lt; 3% (Hydrophobic properties)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tor-visual reveal">
+                <div style="text-align:center; padding: 2rem; color: var(--fg-dim);">
+                    <i class="fa-solid fa-fire-flame-curved" style="font-size: 3rem; color: var(--amber-bright); margin-bottom: 1rem;"></i>
+                    <h4 style="font-family: var(--serif); color: var(--fg); font-size: 1.2rem; margin-bottom: 0.5rem;">Thermal Torrefaction Reactor Integration</h4>
+                    <p style="font-size: 0.85rem;">Converting municipal RDF into high-grade industrial solid fuel.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq">
+    <div class="container" style="max-width: 900px;">
+        <div class="section-label">Common Inquiries</div>
+        <h2 class="section-heading">Frequently Asked <span class="italic">Questions</span>.</h2>
+        
+        <div style="margin-top: 2.5rem;">
+            <div class="faq-item">
+                <div class="faq-q"><span>How can Urban Local Bodies engage ACVR Consultancy for a DPR?</span> <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">ULBs, Smart City SPVs, or State Nodal Agencies can directly contact us via phone (+91 8050633907) or email to review draft DPRs, evaluate technical feasibility, or conduct third-party engineering audits.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>What is the typical timeline for legacy waste biomining evaluation?</span> <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">Depending on dumpsite tonnage and waste characterization reports, site assessment and operational roadmaps typically take between 1 to 3 weeks.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>Are your engineering solutions compliant with SWM Rules?</span> <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">Yes. Every DPR evaluation, composting plant design, and biomining protocol is strictly aligned with the latest Solid Waste Management guidelines and CPCB norms.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+    <div class="container">
+        <div class="section-label">Direct Engagement</div>
+        <div class="contact-grid">
+            <div class="contact-info reveal">
+                <h2 class="section-heading">Initiate an <span class="green-italic">engineering review</span> or advisory.</h2>
+                <p>Whether you are preparing a ULB DPR, facing execution bottlenecks on a legacy waste biomining site, or designing a high-capacity processing plant, consult directly with the principal expert.</p>
+                
+                <div class="contact-channels">
+                    <a href="tel:+918050633907" class="contact-channel">
+                        <i class="fa-solid fa-phone"></i>
+                        <div>
+                            <div class="channel-text">Direct Line / WhatsApp</div>
+                            <div class="channel-value">+91 80506 33907</div>
+                        </div>
+                    </a>
+                    <a href="mailto:achvreddy@gmail.com" class="contact-channel">
+                        <i class="fa-solid fa-envelope"></i>
+                        <div>
+                            <div class="channel-text">Primary Email</div>
+                            <div class="channel-value">achvreddy@gmail.com</div>
+                        </div>
+                    </a>
+                    <div class="contact-channel" style="cursor: default;">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <div class="channel-text">Office Address</div>
+                            <div class="channel-value" style="font-size:0.85rem; font-weight:normal;">Flat No: 501, 5th Floor, Concrete Sarigama Apt, Manikonda Jagir, Hyderabad - 500089, Telangana</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form reveal">
+                <form id="swmContactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fname">Your Name / Designation *</label>
+                            <input type="text" id="fname" name="fname" placeholder="e.g. Municipal Commissioner / Project Director" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fOrg">Organization / ULB / EPC Firm *</label>
+                            <input type="text" id="fOrg" name="fOrg" placeholder="e.g. Municipal Corporation / EPC Company" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fPhone">Phone / WhatsApp *</label>
+                            <input type="tel" id="fPhone" nam<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACVR Consultancy | Integrated Solid Waste Management Engineering — India</title>
+<meta name="description" content="Specialist SWM engineering consultancy for Urban Local Bodies, Smart Cities, EPC firms and waste operators. 27+ years, 205+ ULB DPRs evaluated, 14+ legacy waste projects across 6 Indian states.">
+<meta name="keywords" content="Solid Waste Management consultant India, Legacy waste biomining, SWM Rules 2026, DPR evaluation, Smart City SWM, RDF, Torrefaction, Mechanical composting plant engineering, ULB advisory">
+<meta name="author" content="Alla China Venkata Reddy — ACVR Consultancy">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://acvrreddy-ui.github.io/acvr/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="ACVR Consultancy | Integrated SWM Engineering">
+<meta property="og:description" content="The specialist you bring in when a waste-management project is technically difficult, operationally complex, or too important to get wrong.">
+<meta property="og:url" content="https://acvrreddy-ui.github.io/acvr/">
+<meta property="og:locale" content="en_IN">
+
+<!-- Favicon (SVG) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2307090a'/><path d='M50 20 C30 30 25 55 50 80 C75 55 70 30 50 20 Z' fill='%234caf50'/><circle cx='50' cy='50' r='5' fill='%23d4a574'/></svg>">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "ACVR Consultancy",
+  "description": "Integrated Solid Waste Management engineering consultancy serving Urban Local Bodies, Smart City SPVs, EPC firms and waste operators across India.",
+  "url": "https://acvrreddy-ui.github.io/acvr/",
+  "telephone": "+91-8050633907",
+  "email": "achvreddy@gmail.com",
+  "areaServed": ["Karnataka", "Tamil Nadu", "Telangana", "Andhra Pradesh", "Rajasthan", "Jammu & Kashmir", "Chhattisgarh", "Puducherry"],
+  "founder": {
+    "@type": "Person",
+    "name": "Alla China Venkata Reddy",
+    "jobTitle": "Principal Consultant",
+    "qualification": "B.E. Mechanical Engineering, SWM Specialist since 1996"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Flat No: 501, 5th Floor, Concrete Sarigama Apartment, Harivillu to Lancohills Road, Manikonda Jagir",
+    "addressLocality": "Hyderabad",
+    "addressRegion": "Telangana",
+    "postalCode": "500089",
+    "addressCountry": "IN"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --bg: #07090a;
+  --bg-2: #0c1110;
+  --surface: #121815;
+  --border: rgba(76, 175, 80, 0.12);
+  --border-strong: rgba(76, 175, 80, 0.3);
+  --fg: #f0f4f1;
+  --fg-dim: #8a948e;
+  --muted: #4a524d;
+  --green: #2e7d52;
+  --green-bright: #4caf50;
+  --green-glow: #00ff9d;
+  --amber: #d4a574;
+  --amber-bright: #e8b574;
+  --warm: #c2410c;
+  --serif: 'Fraunces', serif;
+  --sans: 'Space Grotesk', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--green-bright); color: var(--bg); }
+
+/* Custom Cursor */
+.cursor, .cursor-ring { display: none; }
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body { cursor: none; }
+  a, button, input, textarea, select, label { cursor: none; }
+  .cursor {
+    display: block; position: fixed; width: 8px; height: 8px;
+    background: var(--green-glow); border-radius: 50%;
+    pointer-events: none; z-index: 10000; mix-blend-mode: difference;
+    transition: width 0.3s, height 0.3s;
+  }
+  .cursor-ring {
+    display: block; position: fixed; width: 36px; height: 36px;
+    border: 1px solid var(--green-bright); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+  }
+  .cursor.hover { width: 0; height: 0; }
+  .cursor-ring.hover { width: 70px; height: 70px; border-color: var(--amber-bright); }
+}
+
+/* Preloader */
+.preloader {
+  position: fixed; inset: 0; z-index: 9998; background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 2rem; transition: opacity 0.8s ease, visibility 0.8s;
+}
+.preloader.done { opacity: 0; visibility: hidden; }
+.preloader-mark {
+  font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 300; color: var(--green-bright);
+  letter-spacing: -0.03em; display: flex; align-items: center; gap: 0.5rem;
+  position: relative; overflow: hidden;
+}
+.preloader-mark span { color: var(--fg); }
+.preloader-mark i { font-size: 2rem; color: var(--amber); }
+.preloader-mark::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  height: 1px; width: 0; background: var(--green-bright);
+  animation: drawLine 1.2s 0.3s ease forwards;
+}
+@keyframes drawLine { to { width: 100%; } }
+.preloader-text {
+  font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--fg-dim); opacity: 0; animation: fadeIn 0.6s 0.8s forwards;
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* Nav */
+nav.top {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.25rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.4s;
+}
+nav.top.scrolled {
+  padding: 0.85rem 2rem;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(7, 9, 10, 0.88);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 500;
+  color: var(--fg); display: flex; align-items: center; gap: 0.6rem;
+  text-decoration: none; flex-shrink: 0;
+}
+.nav-brand-dot {
+  width: 9px; height: 9px; background: var(--green-bright);
+  border-radius: 50%; box-shadow: 0 0 12px var(--green-glow);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+.nav-brand small {
+  display: block; font-family: var(--sans);
+  font-size: 0.6rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--green-bright); margin-top: 1px;
+}
+.nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+.nav-links a {
+  color: var(--fg-dim); text-decoration: none;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; transition: color 0.3s; position: relative;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--green-bright); }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--green-bright); transition: width 0.3s;
+}
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+.nav-cta {
+  padding: 0.6rem 1.25rem; border: 1px solid var(--green-bright);
+  color: var(--green-bright); text-decoration: none;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; transition: all 0.3s;
+  position: relative; overflow: hidden; background: transparent;
+}
+.nav-cta::before {
+  content: ''; position: absolute; inset: 0; background: var(--green-bright);
+  transform: translateY(100%); transition: transform 0.3s; z-index: -1;
+}
+.nav-cta:hover { color: var(--bg); }
+.nav-cta:hover::before { transform: translateY(0); }
+
+/* Mobile menu */
+.hamburger {
+  display: none; background: none; border: none; color: var(--fg);
+  font-size: 1.5rem; padding: 0.5rem; z-index: 101;
+}
+.mobile-menu {
+  display: none; position: fixed; top: 0; right: 0;
+  width: 100%; max-width: 320px; height: 100vh; z-index: 99;
+  background: var(--bg-2); border-left: 1px solid var(--border);
+  padding: 5rem 2rem 2rem; flex-direction: column; gap: 0;
+  transform: translateX(100%); transition: transform 0.4s ease;
+}
+.mobile-menu.open { transform: translateX(0); display: flex; }
+.mobile-menu a {
+  color: var(--fg-dim); text-decoration: none;
+  font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 1rem 0;
+  border-bottom: 1px solid var(--border); transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--green-bright); }
+.mobile-menu .nav-cta { margin-top: 1.5rem; text-align: center; border: 1px solid var(--green-bright); }
+.menu-overlay {
+  display: none; position: fixed; inset: 0; z-index: 98;
+  background: rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.3s;
+}
+.menu-overlay.show { display: block; opacity: 1; }
+
+@media(max-width: 900px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: block; }
+}
+
+/* Hero */
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: center;
+  padding: 0 2rem; overflow: hidden;
+}
+#hero-canvas { position: absolute; inset: 0; z-index: 1; opacity: 0.6; }
+.hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  background: radial-gradient(ellipse at 60% 50%, transparent 0%, var(--bg) 85%);
+  pointer-events: none;
+}
+.hero-content {
+  position: relative; z-index: 3; max-width: 1400px;
+  margin: 0 auto; width: 100%; padding-top: 5rem;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--green-bright);
+  margin-bottom: 2rem; padding: 0.4rem 1rem;
+  border: 1px solid var(--border-strong);
+  background: rgba(46, 125, 82, 0.05); backdrop-filter: blur(10px);
+}
+.hero-eyebrow i { color: var(--amber); }
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-weight: 300; line-height: 1; letter-spacing: -0.03em;
+  margin-bottom: 1.5rem; max-width: 14ch;
+}
+.hero h1 .italic { font-style: italic; color: var(--green-bright); }
+.hero h1 .amber-italic { font-style: italic; color: var(--amber-bright); }
+.hero-sub {
+  font-size: 1.05rem; color: var(--fg-dim); max-width: 580px;
+  margin-bottom: 2rem; line-height: 1.7;
+}
+.hero-stats {
+  display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2.5rem;
+  padding-bottom: 2rem; border-bottom: 1px solid var(--border);
+}
+.hero-stat { display: flex; flex-direction: column; }
+.hero-stat .num {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 400;
+  color: var(--amber-bright); line-height: 1;
+}
+.hero-stat .label {
+  font-size: 0.65rem; color: var(--fg-dim); letter-spacing: 0.1em;
+  text-transform: uppercase; margin-top: 0.25rem;
+}
+.hero-actions { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.btn-primary {
+  padding: 1rem 1.75rem; background: var(--green-bright); color: var(--bg);
+  text-decoration: none; font-weight: 600; font-size: 0.8rem;
+  letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.3s;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  border: none; font-family: var(--sans); position: relative; overflow: hidden;
+}
+.btn-primary:hover {
+  background: var(--green-glow); transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.35);
+}
+.btn-primary i { transition: transform 0.3s; }
+.btn-primary:hover i { transform: translateX(4px); }
+.btn-ghost {
+  color: var(--fg); text-decoration: none; font-weight: 500;
+  font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  position: relative; padding: 1rem 1.75rem;
+  border: 1px solid var(--border-strong);
+  transition: all 0.3s;
+}
+.btn-ghost:hover { border-color: var(--amber); color: var(--amber-bright); }
+.btn-whatsapp {
+  background: #25D366; color: #fff;
+  text-decoration: none; font-weight: 600; font-size: 0.8rem;
+  letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.3s;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  border: none; font-family: var(--sans); padding: 1rem 1.75rem;
+}
+.btn-whatsapp:hover { background: #1eb558; transform: translateY(-2px); }
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--fg-dim); opacity: 0.7;
+}
+.scroll-line { width: 1px; height: 40px; background: rgba(76,175,80,0.2); position: relative; overflow: hidden; }
+.scroll-line::after {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 30%;
+  background: var(--green-bright); animation: scrollDown 2s infinite;
+}
+@keyframes scrollDown { 0% { transform: translateY(-100%); } 100% { transform: translateY(330%); } }
+
+/* Sections */
+section { position: relative; padding: 6rem 2rem; }
+.container { max-width: 1400px; margin: 0 auto; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--green-bright); margin-bottom: 1.5rem;
+}
+.section-label::before { content: ''; width: 2rem; height: 1px; background: var(--green-bright); }
+.section-heading {
+  font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.25rem;
+}
+.section-heading .italic { font-style: italic; color: var(--amber-bright); }
+.section-heading .green-italic { font-style: italic; color: var(--green-bright); }
+.section-intro { font-size: 1rem; color: var(--fg-dim); max-width: 600px; line-height: 1.7; margin-bottom: 3rem; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Stats glance grid */
+.glance { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.glance-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 2.5rem; }
+.glance-item { background: var(--bg-2); padding: 2rem 1.25rem; text-align: center; }
+.glance-num { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 300; color: var(--amber-bright); line-height: 1; margin-bottom: 0.5rem; }
+.glance-num span { color: var(--green-bright); }
+.glance-label { font-size: 0.65rem; color: var(--fg-dim); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.4; }
+@media(max-width: 1024px) { .glance-grid { grid-template-columns: repeat(3, 1fr); } }
+@media(max-width: 600px) { .glance-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* About */
+.about { background: var(--bg); }
+.about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; }
+@media(max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.about-portrait {
+  position: relative; height: 500px;
+  background: linear-gradient(135deg, var(--surface), var(--bg-2));
+  border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.about-portrait::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(76,175,80,0.1), transparent 70%);
+}
+.about-portrait img.consultant-photo {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  position: absolute; inset: 0; z-index: 1;
+}
+.about-portrait-badge {
+  position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
+  padding: 1rem; background: rgba(7,9,10,0.8); backdrop-filter: blur(10px);
+  border: 1px solid var(--border-strong); z-index: 2;
+}
+.about-portrait-badge h4 { font-family: var(--serif); font-size: 1rem; color: var(--fg); margin-bottom: 0.25rem; }
+.about-portrait-badge p { font-size: 0.7rem; color: var(--green-bright); letter-spacing: 0.1em; text-transform: uppercase; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.75rem; }
+.about-tag { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.75rem; border: 1px solid var(--border); color: var(--fg-dim); }
+.about-tag.amber { border-color: rgba(212,165,116,0.3); color: var(--amber-bright); }
+.about-tag.green { border-color: rgba(76,175,80,0.3); color: var(--green-bright); }
+.about-text p { font-size: 1rem; color: var(--fg-dim); line-height: 1.8; margin-bottom: 1.25rem; }
+.about-text p strong { color: var(--fg); font-weight: 500; font-family: var(--serif); font-style: italic; }
+
+/* Expertise */
+.expertise { background: var(--bg-2); border-top: 1px solid var(--border); }
+.expertise-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+@media(max-width: 900px) { .expertise-grid { grid-template-columns: 1fr; } }
+.expertise-card { background: var(--bg-2); padding: 2.25rem 2rem; position: relative; transition: all 0.4s; overflow: hidden; }
+.expertise-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--green-bright); transform: scaleX(0); transform-origin: left; transition: transform 0.5s; }
+.expertise-card:hover::before { transform: scaleX(1); }
+.expertise-card:hover { background: var(--surface); }
+.expertise-num { font-family: var(--serif); font-size: 0.75rem; color: var(--amber); margin-bottom: 1.5rem; letter-spacing: 0.1em; font-style: italic; }
+.expertise-icon { width: 52px; height: 52px; margin-bottom: 1.5rem; color: var(--green-bright); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); transition: all 0.3s; font-size: 1.3rem; }
+.expertise-card:hover .expertise-icon { border-color: var(--green-bright); background: rgba(76,175,80,0.08); }
+.expertise-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.75rem; letter-spacing: -0.01em; line-height: 1.2; }
+.expertise-desc { color: var(--fg-dim); font-size: 0.85rem; line-height: 1.7; }
+
+/* Projects & Track Record */
+.projects { background: var(--bg); }
+.project-item {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  border: 1px solid var(--border); margin-bottom: 1.5rem;
+  transition: all 0.3s; overflow: hidden;
+}
+@media(max-width: 900px) { .project-item { grid-template-columns: 1fr; } }
+.project-item:hover { border-color: var(--border-strong); }
+.project-left { padding: 2rem; border-right: 1px solid var(--border); }
+.project-right { padding: 2rem; background: var(--bg-2); }
+.project-cat { font-size: 0.65rem; color: var(--amber-bright); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.project-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 500; margin-bottom: 0.75rem; color: var(--fg); }
+.project-capacity { font-size: 0.85rem; color: var(--green-bright); margin-bottom: 1rem; font-weight: 500; }
+.project-role { font-size: 0.75rem; color: var(--fg-dim); margin-bottom: 1rem; }
+.project-scope { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.project-scope span { font-size: 0.65rem; padding: 0.25rem 0.6rem; border: 1px solid var(--border); color: var(--fg-dim); letter-spacing: 0.05em; text-transform: uppercase; }
+.project-result { font-size: 0.85rem; color: var(--fg-dim); line-height: 1.6; }
+.project-geo { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--green-bright); margin-bottom: 1rem; }
+
+/* Torrefaction Section */
+.torrefaction { background: var(--bg-2); border-top: 1px solid var(--border); }
+.tor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 2.5rem; align-items: center; }
+@media(max-width: 900px) { .tor-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.tor-left p { font-size: 0.95rem; color: var(--fg-dim); line-height: 1.8; margin-bottom: 1.5rem; }
+.tor-specs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
+.tor-spec { border: 1px solid var(--border); padding: 1.25rem; background: var(--bg); }
+.tor-spec-label { font-size: 0.65rem; color: var(--amber-bright); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.tor-spec-value { font-size: 0.85rem; color: var(--fg); line-height: 1.5; }
+
+/* FAQ */
+.faq { background: var(--bg-2); border-top: 1px solid var(--border); }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q { padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: var(--serif); font-size: 1.05rem; color: var(--fg); }
+.faq-q i { color: var(--green-bright); transition: transform 0.3s; }
+.faq-item.open .faq-q i { transform: rotate(180deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s, padding 0.4s; color: var(--fg-dim); font-size: 0.9rem; line-height: 1.7; }
+.faq-item.open .faq-a { max-height: 250px; padding: 0 0 1.5rem 0; }
+
+/* Contact Section */
+.contact { background: var(--bg); border-top: 1px solid var(--border); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: start; }
+@media(max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.contact-info p { color: var(--fg-dim); font-size: 1rem; line-height: 1.7; margin-bottom: 2rem; max-width: 480px; }
+.contact-channels { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+.contact-channel { display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid var(--border); text-decoration: none; color: var(--fg); transition: all 0.3s; }
+.contact-channel:hover { border-color: var(--border-strong); transform: translateX(4px); }
+.contact-channel i { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: var(--green-bright); font-size: 1.1rem; border: 1px solid var(--border-strong); }
+.contact-channel .channel-text { font-size: 0.8rem; color: var(--fg-dim); }
+.contact-channel .channel-value { font-size: 0.95rem; font-weight: 500; }
+.contact-form { background: rgba(18,24,21,0.6); backdrop-filter: blur(20px); padding: 2.5rem; border: 1px solid var(--border); position: relative; }
+.contact-form::before, .contact-form::after { content: ''; position: absolute; width: 50px; height: 50px; }
+.contact-form::before { top: -1px; left: -1px; border-top: 1px solid var(--green-bright); border-left: 1px solid var(--green-bright); }
+.contact-form::after { bottom: -1px; right: -1px; border-bottom: 1px solid var(--amber); border-right: 1px solid var(--amber); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+@media(max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 0.5rem; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border);
+  padding: 0.6rem 0; color: var(--fg); font-family: var(--sans); font-size: 0.9rem;
+  transition: border-color 0.3s; outline: none;
+}
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--green-bright); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-group select option { background: var(--surface); color: var(--fg); }
+.form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+
+/* Footer */
+footer { background: var(--bg); padding: 4rem 2rem 2rem; border-top: 1px solid var(--border); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
+@media(max-width: 900px) { .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.footer-brand { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.footer-tagline { color: var(--fg-dim); max-width: 400px; font-size: 0.9rem; line-height: 1.7; }
+.footer-col h4 { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green-bright); margin-bottom: 1.25rem; font-weight: 500; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 0.65rem; }
+.footer-col a { color: var(--fg-dim); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+.footer-col a:hover { color: var(--green-bright); }
+.footer-bottom { display: flex; justify-content: space-between; padding-top: 2rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--fg-dim); max-width: 1400px; margin: 0 auto; flex-wrap: wrap; gap: 1rem; }
+
+/* WhatsApp float */
+.whatsapp-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 90; width: 56px; height: 56px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: all 0.3s; animation: waPulse 2s infinite; }
+.whatsapp-float:hover { transform: scale(1.1); }
+@keyframes waPulse { 0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7); } }
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+    <div class="preloader-mark">ACVR <span>Consultancy</span> <i class="fa-solid fa-leaf"></i></div>
+    <div class="preloader-text">Integrated SWM Engineering — India</div>
+</div>
+
+<!-- Nav -->
+<nav class="top" id="navbar">
+    <a href="#" class="nav-brand">
+        <div class="nav-brand-dot"></div>
+        ACVR Consultancy
+        <small>SWM Engineering</small>
+    </a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#torrefaction">Torrefaction</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Engage Consultant</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="mob-link">About</a>
+    <a href="#expertise" class="mob-link">Expertise</a>
+    <a href="#projects" class="mob-link">Projects</a>
+    <a href="#torrefaction" class="mob-link">Torrefaction</a>
+    <a href="#contact" class="mob-link">Contact</a>
+    <a href="#contact" class="nav-cta mob-link">Engage Consultant</a>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+        <div class="hero-eyebrow">
+            <i class="fa-solid fa-shield-halved"></i> 27+ Years Field-Tested SWM Expertise &nbsp;|&nbsp; SWM Rules 2026 Compliant
+        </div>
+        <h1>The <span class="italic">expert</span> you bring in when waste engineering is <span class="amber-italic">too important</span> to fail.</h1>
+        <p class="hero-sub">Specialist Solid Waste Management consultancy serving Urban Local Bodies, Smart City SPVs, EPC contractors, and waste-processing operators across India. From legacy waste biomining to mechanical composting plant engineering.</p>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="num">205+</span>
+                <span class="label">ULB DPRs Evaluated</span>
+            </div>
+            <div class="hero-stat">
+                <span class="num">27 Yrs</span>
+                <span class="label">Domain Experience</span>
+            </div>
+            <div class="hero-stat">
+                <span class="num">14+</span>
+                <span class="label">Legacy Waste Projects</span>
+            </div>
+            <div class="hero-stat">
+                <span class="num">6+</span>
+                <span class="label">States Deployed</span>
+            </div>
+        </div>
+
+        <div class="hero-actions">
+            <a href="#contact" class="btn-primary">
+                <span>Engage Principal Consultant</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="https://wa.me/918050633907?text=Hello%20ACVR%20Consultancy,%20I%20would%20like%20to%20discuss%20an%20SWM%20project." target="_blank" rel="noopener" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Direct
+            </a>
+            <a href="#projects" class="btn-ghost">View Track Record</a>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <span>Scroll to Explore</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- Glance Stats Grid -->
+<div class="glance">
+    <div class="container">
+        <div class="glance-grid">
+            <div class="glance-item">
+                <div class="glance-num">27<span>+</span></div>
+                <div class="glance-label">Years Field Experience</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">205<span>+</span></div>
+                <div class="glance-label">ULB DPRs Evaluated</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">14<span>+</span></div>
+                <div class="glance-label">Legacy Waste Projects</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">6<span>+</span></div>
+                <div class="glance-label">Indian States</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">100<span>%</span></div>
+                <div class="glance-label">SWM Rules Aligned</div>
+            </div>
+            <div class="glance-item">
+                <div class="glance-num">0<span>%</span></div>
+                <div class="glance-label">Theoretical Fluff</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<section class="about" id="about">
+    <div class="container">
+        <div class="section-label">Principal Consultant Profile</div>
+        <div class="about-grid">
+            <div class="about-portrait reveal">
+                <!-- Profile Photo Integration -->
+                <img src="profile.jpg" alt="Alla China Venkata Reddy — Principal Consultant ACVR Consultancy" class="consultant-photo">
+                <div class="about-portrait-badge">
+                    <h4>Alla China Venkata Reddy</h4>
+                    <p>B.E. Mech | SWM Specialist since 1996</p>
+                </div>
+            </div>
+            <div class="about-text reveal">
+                <h2 class="section-heading">Decades of <span class="italic">ground-level</span> engineering authority.</h2>
+                <div class="about-tags">
+                    <span class="about-tag green">B.E. Mechanical Engineering</span>
+                    <span class="about-tag amber">SWM Rules 2026 Compliant</span>
+                    <span class="about-tag">ULB Advisory</span>
+                    <span class="about-tag">Biomining Expert</span>
+                </div>
+                <p>Founded and led by <strong>Alla China Venkata Reddy</strong>, ACVR Consultancy brings over 27 years of hardcore mechanical engineering and solid waste management specialization across India.</p>
+                <p>Unlike general consultancy firms that rely on theoretical templates, our advisory is forged from direct site execution—evaluating over <strong>205 Urban Local Body Detailed Project Reports (DPRs)</strong>, engineering complex legacy dumpsite biomining, and successfully executing 14+ major municipal processing facilities across 6 states.</p>
+                <p>We work as independent expert advisors to municipal corporations, State Nodal Agencies, Smart City SPVs, and private EPC firms executing high-stakes waste infrastructure.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Expertise Section -->
+<section class="expertise" id="expertise">
+    <div class="container">
+        <div class="section-label">Core Technical Domains</div>
+        <h2 class="section-heading">Hardcore engineering services for <span class="italic">complex</span> waste mandates.</h2>
+        <p class="section-intro">Engineered precisely to meet current environmental standards, SWM Rules, and state-level municipal requirements.</p>
+
+        <div class="expertise-grid">
+            <div class="expertise-card reveal">
+                <div class="expertise-num">01 / ENGINEERING</div>
+                <div class="expertise-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+                <h3 class="expertise-title">Legacy Waste Biomining & Remediation</h3>
+                <p class="expertise-desc">Comprehensive dumpsite profiling, trammel sizing, excavation protocols, inert separation, RDF recovery, and bio-remediated land reclamation compliant with strict CPCB guidelines.</p>
+            </div>
+            <div class="expertise-card reveal">
+                <div class="expertise-num">02 / SCRUTINY</div>
+                <div class="expertise-icon"><i class="fa-solid fa-file-contract"></i></div>
+                <h3 class="expertise-title">ULB DPR Evaluation & Technical Scrutiny</h3>
+                <p class="expertise-desc">Rigorous third-party evaluation of Detailed Project Reports for Urban Local Bodies. Detecting engineering anomalies, sizing bottlenecks, and financial viability gaps before capital outlay.</p>
+            </div>
+            <div class="expertise-card reveal">
+                <div class="expertise-num">03 / PROCESSING</div>
+                <div class="expertise-icon"><i class="fa-solid fa-gears"></i></div>
+                <h3 class="expertise-title">Mechanical Composting & RDF Plants</h3>
+                <p class="expertise-desc">End-to-end plant engineering for windrow/in-vessel composting, Refuse-Derived Fuel (RDF) processing lines, trommels, magnetic separators, and automated air classifiers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Track Record Section -->
+<section class="projects" id="projects">
+    <div class="container">
+        <div class="section-label">Track Record & Field Deployments</div>
+        <h2 class="section-heading">Proven execution across <span class="italic">six Indian states</span>.</h2>
+        <p class="section-intro">A snapshot of municipal projects, dumpsite remediations, and engineering evaluations led directly by our principal consultant.</p>
+
+        <div class="project-item reveal">
+            <div class="project-left">
+                <div class="project-geo"><i class="fa-solid fa-location-dot">></i> Andhra Pradesh & Telangana ULBs</div>
+                <div class="project-cat">DPR Evaluation & Advisory</div>
+                <h3 class="project-title">205+ Municipal Solid Waste DPRs Scrutinized</h3>
+                <div class="project-capacity">Scope: Technical & Financial Evaluation</div>
+                <div class="project-role">Role: Lead Technical Evaluator & Independent Expert</div>
+            </div>
+            <div class="project-right">
+                <div class="project-scope">
+                    <span>Trammel Sizing</span><span>Mass Balance</span><span>CAPEX Audit</span>
+                </div>
+                <p class="project-result">Evaluated more than 205 Detailed Project Reports for urban local bodies, ensuring rigorous compliance with environmental regulations, realistic waste characterization, and operational sustainability.</p>
+            </div>
+        </div>
+
+        <div class="project-item reveal">
+            <div class="project-left">
+                <div class="project-geo"><i class="fa-solid fa-location-dot"></i> Multi-State Dumpsites (AP, TS, KA, TN, RJ, JK)</div>
+                <div class="project-cat">Legacy Waste Remediation</div>
+                <h3 class="project-title">14+ Major Dumpsite Biomining Projects</h3>
+                <div class="project-capacity">Scope: 10,000 to 5,00,000+ Metric Tons per Site</div>
+                <div class="project-role">Role: Principal Engineering Consultant</div>
+            </div>
+            <div class="project-right">
+                <div class="project-scope">
+                    <span>Excavation</span><span>Trommel Setup</span><span>RDF Offtake</span><span>Land Reclamation</span>
+                </div>
+                <p class="project-result">Successfully engineered and advised biomining operations across 14+ legacy waste sites, reclaiming high-value municipal land and establishing steady RDF off-take channels for cement plants.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Torrefaction Section -->
+<section class="torrefaction" id="torrefaction">
+    <div class="container">
+        <div class="section-label">Advanced Biomass Tech</div>
+        <h2 class="section-heading">Torrefaction & <span class="italic">RDF Valorization</span>.</h2>
+        <div class="tor-grid">
+            <div class="tor-left reveal">
+                <p>As municipal solid waste rules push for zero landfill and high-value energy recovery, ACVR Consultancy leads technical advisory in thermal torrefaction—converting low-grade Refuse-Derived Fuel (RDF) and agricultural biomass into high-calorific, hydrophobic biocoal.</p>
+                <p>We assist EPC firms and independent power producers in integrating torrefaction reactors to replace coal in industrial boilers and cement kilns with stable, storable green fuel.</p>
+                
+                <div class="tor-specs">
+                    <div class="tor-spec">
+                        <div class="tor-spec-label">Calorific Upgrade</div>
+                        <div class="tor-spec-value">22–26 MJ/kg (Biocoal equivalent)</div>
+                    </div>
+                    <div class="tor-spec">
+                        <div class="tor-spec-label">Moisture Content</div>
+                        <div class="tor-spec-value">&lt; 3% (Hydrophobic properties)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tor-visual reveal">
+                <div style="text-align:center; padding: 2rem; color: var(--fg-dim);">
+                    <i class="fa-solid fa-fire-flame-curved" style="font-size: 3rem; color: var(--amber-bright); margin-bottom: 1rem;"></i>
+                    <h4 style="font-family: var(--serif); color: var(--fg); font-size: 1.2rem; margin-bottom: 0.5rem;">Thermal Torrefaction Reactor Integration</h4>
+                    <p style="font-size: 0.85rem;">Converting municipal RDF into high-grade industrial solid fuel.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq">
+    <div class="container" style="max-width: 900px;">
+        <div class="section-label">Common Inquiries</div>
+        <h2 class="section-heading">Frequently Asked <span class="italic">Questions</span>.</h2>
+        
+        <div style="margin-top: 2.5rem;">
+            <div class="faq-item">
+                <div class="faq-q"><span>How can Urban Local Bodies engage ACVR Consultancy for a DPR?</span> <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">ULBs, Smart City SPVs, or State Nodal Agencies can directly contact us via phone (+91 8050633907) or email to review draft DPRs, evaluate technical feasibility, or conduct third-party engineering audits.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>What is the typical timeline for legacy waste biomining evaluation?</span> <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">Depending on dumpsite tonnage and waste characterization reports, site assessment and operational roadmaps typically take between 1 to 3 weeks.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>Are your engineering solutions compliant with SWM Rules?</span> <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">Yes. Every DPR evaluation, composting plant design, and biomining protocol is strictly aligned with the latest Solid Waste Management guidelines and CPCB norms.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+    <div class="container">
+        <div class="section-label">Direct Engagement</div>
+        <div class="contact-grid">
+            <div class="contact-info reveal">
+                <h2 class="section-heading">Initiate an <span class="green-italic">engineering review</span> or advisory.</h2>
+                <p>Whether you are preparing a ULB DPR, facing execution bottlenecks on a legacy waste biomining site, or designing a high-capacity processing plant, consult directly with the principal expert.</p>
+                
+                <div class="contact-channels">
+                    <a href="tel:+918050633907" class="contact-channel">
+                        <i class="fa-solid fa-phone"></i>
+                        <div>
+                            <div class="channel-text">Direct Line / WhatsApp</div>
+                            <div class="channel-value">+91 80506 33907</div>
+                        </div>
+                    </a>
+                    <a href="mailto:achvreddy@gmail.com" class="contact-channel">
+                        <i class="fa-solid fa-envelope"></i>
+                        <div>
+                            <div class="channel-text">Primary Email</div>
+                            <div class="channel-value">achvreddy@gmail.com</div>
+                        </div>
+                    </a>
+                    <div class="contact-channel" style="cursor: default;">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <div class="channel-text">Office Address</div>
+                            <div class="channel-value" style="font-size:0.85rem; font-weight:normal;">Flat No: 501, 5th Floor, Concrete Sarigama Apt, Manikonda Jagir, Hyderabad - 500089, Telangana</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form reveal">
+                <form id="swmContactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fname">Your Name / Designation *</label>
+                            <input type="text" id="fname" name="fname" placeholder="e.g. Municipal Commissioner / Project Director" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fOrg">Organization / ULB / EPC Firm *</label>
+                            <input type="text" id="fOrg" name="fOrg" placeholder="e.g. Municipal Corporation / EPC Company" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fPhone">Phone / WhatsApp *</label>
+                            <input type="tel" id="fPhone" name="fPhone" placeholder="+91 XXXXX XXXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fService">Area of Engagement *</label>
+                            <select id="fService" name="fService" required>
+                                <option value="" disabled selected>Select SWM domain...</option>
+                                <option value="Legacy Waste Biomining">Legacy Waste Biomining / Dumpsite Remediation</option>
+                                <option value="DPR Evaluation & Preparation">DPR Evaluation / Technical Scrutiny</option>
+                                <option value="Mechanical Composting / RDF">Mechanical Composting / RDF Plant Engineering</option>
+                                <option value="Torrefaction Advisory">Torrefaction & Biomass Energy</option>
+                                <option value="ULB / Smart City Advisory">ULB / Smart City Advisory</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fMsg">Project Scope / Details *</label>
+                        <textarea id="fMsg" name="fMsg" placeholder="Describe the tonnage, site challenges, or DPR review requirements..." required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            <span>Submit Inquiry</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- Footer -->
 <footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-brand">
-        <div class="nav-brand-dot"></div>
-        ACVR Consultancy
-      </div>
-      <p class="footer-tagline">Integrated Solid Waste Management engineering consultancy. The specialist you bring in when a project is technically difficult, operationally complex, or too important to get wrong.</p>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand">
+                <div class="nav-brand-dot"></div>
+                ACVR Consultancy
+            </div>
+            <p class="footer-tagline">Integrated Solid Waste Management Engineering consultancy led by Alla China Venkata Reddy. Delivering rigorous, field-tested engineering solutions across India since 1996.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Navigation</h4>
+            <ul>
+                <li><a href="#about">About Consultant</a></li>
+                <li><a href="#expertise">Core Expertise</a></li>
+                <li><a href="#projects">Track Record</a></li>
+                <li><a href="#torrefaction">Torrefaction Tech</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Core Services</h4>
+            <ul>
+                <li><a href="#contact">Legacy Waste Biomining</a></li>
+                <li><a href="#contact">DPR Scrutiny & Evaluation</a></li>
+                <li><a href="#contact">RDF & Composting Plants</a></li>
+                <li><a href="#contact">Smart City SWM Advisory</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Direct Contact</h4>
+            <ul>
+                <li><a href="tel:+918050633907">+91 80506 33907</a></li>
+                <li><a href="mailto:achvreddy@gmail.com">achvreddy@gmail.com</a></li>
+                <li><a href="#contact">Manikonda, Hyderabad</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="footer-col">
-      <h4>Expertise</h4>
-      <ul>
-        <li><a href="#expertise">Legacy Waste Biomining</a></li>
-        <li><a href="#expertise">ISWM Micro-Planning</a></li>
-        <li><a href="#expertise">Processing Plant Engineering</a></li>
-        <li><a href="#expertise">RDF & WtE Strategy</a></li>
-        <li><a href="#torrefaction">Torrefaction</a></li>
-        <li><a href="#expertise">Smart City ICT</a></li>
-      </ul>
+    <div class="footer-bottom">
+        <div>&copy; 2026 ACVR Consultancy. All rights reserved. Founded by Alla China Venkata Reddy.</div>
+        <div>SWM Rules Compliant Engineering Advisory</div>
     </div>
-    <div class="footer-col">
-      <h4>Navigate</h4>
-      <ul>
-        <li><a href="#advantage">Engineering Advantage</a></li>
-        <li><a href="#projects">Selected Projects</a></li>
-        <li><a href="#authority">Government Authority</a></li>
-        <li><a href="#capability">Capability Statement</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="tel:+918050633907">+91 8050633907</a></li>
-        <li><a href="https://wa.me/919686682258" target="_blank" rel="noopener">WhatsApp ACVR</a></li>
-        <li><a href="mailto:achvreddy@gmail.com">achvreddy@gmail.com</a></li>
-        <li><a href="#contact">Request Consultation</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div>© 2026 ACVR Consultancy. Alla China Venkata Reddy. All rights reserved.</div>
-    <div>Hyderabad · Telangana — Serving Pan India</div>
-  </div>
 </footer>
 
-<!-- WhatsApp Float -->
-<a href="https://wa.me/919686682258?text=I%20would%20like%20to%20discuss%20an%20SWM%20project" 
-   class="whatsapp-float" target="_blank" rel="noopener" 
-   aria-label="Chat on WhatsApp">
-  <i class="fab fa-whatsapp"></i>
+<a href="https://wa.me/918050633907?text=Hello%20ACVR%20Consultancy,%20I%20would%20like%20to%20inquire%20about%20your%20services." target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
 </a>
 
-<!-- Toast -->
-<div class="toast" id="toast" role="alert" aria-live="polite">
-  <i class="fas fa-check-circle"></i>
-  <div class="toast-text">Brief received. We will contact you within 48 hours.</div>
-</div>
+<script>
+// Mobile Menu Toggle
+document.getElementById('hamburger')?.addEventListener('click', () => {
+    document.getElementById('mobileMenu')?.classList.toggle('open');
+    document.getElementById('menuOverlay')?.classList.toggle('show');
+});
+document.getElementById('menuOverlay')?.addEventListener('click', () => {
+    document.getElementById('mobileMenu')?.classList.remove('open');
+    document.getElementById('menuOverlay')?.classList.remove('show');
+});
+document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+        document.getElementById('mobileMenu')?.classList.remove('open');
+        document.getElementById('menuOverlay')?.classList.remove('show');
+    });
+});
 
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-  }
-}
-</script>
-<script type="module">
-import * as THREE from 'three';
+// FAQ Accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('open');
+    });
+});
 
-// === Reduced motion check ===
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// === Custom Cursor ===
-if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
-  const cursor = document.querySelector('.cursor');
-  const cursorRing = document.querySelector('.cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', (e) => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
-  });
-  function animCursor() {
-    rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
-    cursorRing.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
-    requestAnimationFrame(animCursor);
-  }
-  animCursor();
-  document.querySelectorAll('a, button, input, textarea, select, label').forEach(el => {
-    el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); cursorRing.classList.add('hover'); });
-    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); cursorRing.classList.remove('hover'); });
-  });
-}
-
-// === Preloader ===
+// Preloader Hide
 window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('preloader').classList.add('done'), 1200);
+    setTimeout(() => {
+        document.getElementById('preloader')?.classList.add('done');
+    }, 600);
 });
+</script>
+</body>
+</html>e="fPhone" placeholder="+91 XXXXX XXXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fService">Area of Engagement *</label>
+                            <select id="fService" name="fService" required>
+                                <option value="" disabled selected>Select SWM domain...</option>
+                                <option value="Legacy Waste Biomining">Legacy Waste Biomining / Dumpsite Remediation</option>
+                                <option value="DPR Evaluation & Preparation">DPR Evaluation / Technical Scrutiny</option>
+                                <option value="Mechanical Composting / RDF">Mechanical Composting / RDF Plant Engineering</option>
+                                <option value="Torrefaction Advisory">Torrefaction & Biomass Energy</option>
+                                <option value="ULB / Smart City Advisory">ULB / Smart City Advisory</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fMsg">Project Scope / Details *</label>
+                        <textarea id="fMsg" name="fMsg" placeholder="Describe the tonnage, site challenges, or DPR review requirements..." required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            <span>Submit Inquiry</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
-// === Nav scroll ===
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand">
+                <div class="nav-brand-dot"></div>
+                ACVR Consultancy
+            </div>
+            <p class="footer-tagline">Integrated Solid Waste Management Engineering consultancy led by Alla China Venkata Reddy. Delivering rigorous, field-tested engineering solutions across India since 1996.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Navigation</h4>
+            <ul>
+                <li><a href="#about">About Consultant</a></li>
+                <li><a href="#expertise">Core Expertise</a></li>
+                <li><a href="#projects">Track Record</a></li>
+                <li><a href="#torrefaction">Torrefaction Tech</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Core Services</h4>
+            <ul>
+                <li><a href="#contact">Legacy Waste Biomining</a></li>
+                <li><a href="#contact">DPR Scrutiny & Evaluation</a></li>
+                <li><a href="#contact">RDF & Composting Plants</a></li>
+                <li><a href="#contact">Smart City SWM Advisory</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Direct Contact</h4>
+            <ul>
+                <li><a href="tel:+918050633907">+91 80506 33907</a></li>
+                <li><a href="mailto:achvreddy@gmail.com">achvreddy@gmail.com</a></li>
+                <li><a href="#contact">Manikonda, Hyderabad</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div>&copy; 2026 ACVR Consultancy. All rights reserved. Founded by Alla China Venkata Reddy.</div>
+        <div>SWM Rules Compliant Engineering Advisory</div>
+    </div>
+</footer>
+
+<a href="https://wa.me/918050633907?text=Hello%20ACVR%20Consultancy,%20I%20would%20like%20to%20inquire%20about%20your%20services." target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script>
+// Mobile Menu Toggle
+document.getElementById('hamburger')?.addEventListener('click', () => {
+    document.getElementById('mobileMenu')?.classList.toggle('open');
+    document.getElementById('menuOverlay')?.classList.toggle('show');
 });
-
-// === Mobile menu ===
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobile-menu');
-const menuOverlay = document.getElementById('menu-overlay');
-const menuIcon = hamburger.querySelector('i');
-
-function toggleMenu(open) {
-  const isOpen = open !== undefined ? open : !mobileMenu.classList.contains('open');
-  mobileMenu.classList.toggle('open', isOpen);
-  menuOverlay.classList.toggle('show', isOpen);
-  hamburger.setAttribute('aria-expanded', isOpen);
-  menuIcon.className = isOpen ? 'fas fa-times' : 'fas fa-bars';
-}
-hamburger.addEventListener('click', () => toggleMenu());
-menuOverlay.addEventListener('click', () => toggleMenu(false));
-mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && mobileMenu.classList.contains('open')) toggleMenu(false);
+document.getElementById('menuOverlay')?.addEventListener('click', () => {
+    document.getElementById('mobileMenu')?.classList.remove('open');
+    document.getElementById('menuOverlay')?.classList.remove('show');
 });
-
-// === Reveal ===
-if (!prefersReducedMotion) {
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 60);
-        obs.unobserve(entry.target);
-      }
+document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+        document.getElementById('mobileMenu')?.classList.remove('open');
+        document.getElementById('menuOverlay')?.classList.remove('show');
     });
-  }, { threshold: 0.12 });
-  reveals.forEach(r => obs.observe(r));
-} else {
-  document.querySelectorAll('.reveal').forEach(r => r.classList.add('visible'));
-}
-
-// === Smooth scroll ===
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    const id = link.getAttribute('href');
-    if (id === '#') return;
-    const target = document.querySelector(id);
-    if (target) {
-      e.preventDefault();
-      const top = target.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-    }
-  });
 });
 
-// === Mouse tracking ===
-const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-if (!prefersReducedMotion) {
-  window.addEventListener('mousemove', (e) => {
-    mouse.tx = (e.clientX / window.innerWidth - 0.5);
-    mouse.ty = (e.clientY / window.innerHeight - 0.5);
-  });
-}
-
-// === Hero 3D ===
-const heroCanvas = document.getElementById('hero-canvas');
-let heroRenderer, heroScene, heroCamera, heroAnim = false;
-
-if (!prefersReducedMotion) {
-  heroScene = new THREE.Scene();
-  heroScene.fog = new THREE.FogExp2(0x07090a, 0.035);
-  heroCamera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
-  heroCamera.position.set(0, 3, 10);
-  heroRenderer = new THREE.WebGLRenderer({ canvas: heroCanvas, alpha: true, antialias: true });
-  heroRenderer.setSize(window.innerWidth, window.innerHeight);
-  heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  heroScene.add(new THREE.AmbientLight(0xffffff, 0.25));
-  const l1 = new THREE.PointLight(0x4caf50, 2, 25); l1.position.set(0, 4, 0); heroScene.add(l1);
-  const l2 = new THREE.PointLight(0xd4a574, 1.2, 20); l2.position.set(4, 2, 4); heroScene.add(l2);
-
-  // Subtle wireframe terrain
-  const tGeo = new THREE.PlaneGeometry(35, 35, 50, 50);
-  const tMat = new THREE.MeshBasicMaterial({ color: 0x2e7d52, wireframe: true, transparent: true, opacity: 0.25 });
-  const terrain = new THREE.Mesh(tGeo, tMat);
-  terrain.rotation.x = -Math.PI / 2.5; terrain.position.y = -2.5;
-  heroScene.add(terrain);
-  const tPos = tGeo.attributes.position.array.slice();
-
-  // Particles
-  const pCount = window.innerWidth < 768 ? 800 : 1800;
-  const pos = new Float32Array(pCount * 3);
-  const col = new Float32Array(pCount * 3);
-  const gC = new THREE.Color(0x4caf50), aC = new THREE.Color(0xd4a574);
-  for (let i = 0; i < pCount; i++) {
-    const r = 4 + Math.random() * 12, th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1);
-    pos[i*3] = r * Math.sin(ph) * Math.cos(th);
-    pos[i*3+1] = (Math.random() - 0.5) * 12;
-    pos[i*3+2] = r * Math.cos(ph);
-    const c = gC.clone().lerp(aC, Math.random() * 0.6);
-    const in_ = 0.3 + Math.random() * 0.7;
-    col[i*3] = c.r * in_; col[i*3+1] = c.g * in_; col[i*3+2] = c.b * in_;
-  }
-  const pGeo = new THREE.BufferGeometry();
-  pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  pGeo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-  const pMat = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false });
-  heroScene.add(new THREE.Points(pGeo, pMat));
-
-  const clock = new THREE.Clock();
-  let heroVisible = true;
-  new IntersectionObserver((e) => { heroVisible = e[0].isIntersecting; }, { threshold: 0 }).observe(document.querySelector('.hero'));
-
-  function animateHero() {
-    requestAnimationFrame(animateHero);
-    if (!heroVisible) return;
-    const t = clock.getElapsedTime();
-    const p = tGeo.attributes.position.array;
-    for (let i = 0; i < p.length; i += 3) {
-      const x = tPos[i], y = tPos[i+1], d = Math.sqrt(x*x + y*y);
-      p[i+2] = Math.sin(d * 0.4 - t * 0.6) * 0.6 + Math.cos(x * 0.25 + t * 0.4) * 0.3;
-    }
-    tGeo.attributes.position.needsUpdate = true;
-    mouse.x += (mouse.tx - mouse.x) * 0.03;
-    mouse.y += (mouse.ty - mouse.y) * 0.03;
-    heroCamera.position.x = mouse.x * 2;
-    heroCamera.position.y = 3 - mouse.y * 1.5;
-    heroCamera.position.z = Math.max(8, 10 - window.scrollY * 0.004);
-    heroCamera.lookAt(0, 0, 0);
-    l1.intensity = 1.5 + Math.sin(t * 1.5) * 0.4;
-    heroRenderer.render(heroScene, heroCamera);
-  }
-  animateHero();
-  heroAnim = true;
-
-  window.addEventListener('resize', () => {
-    heroCamera.aspect = window.innerWidth / window.innerHeight;
-    heroCamera.updateProjectionMatrix();
-    heroRenderer.setSize(window.innerWidth, window.innerHeight);
-  });
-}
-
-// === Torrefaction canvas ===
-const torCanvas = document.getElementById('tor-canvas');
-if (torCanvas && !prefersReducedMotion) {
-  const torScene = new THREE.Scene();
-  const torCam = new THREE.PerspectiveCamera(50, 1, 0.1, 100); torCam.position.z = 4;
-  const torRend = new THREE.WebGLRenderer({ canvas: torCanvas, alpha: true, antialias: true });
-  torRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  function resizeTor() {
-    const r = torCanvas.getBoundingClientRect();
-    if (r.width === 0) return;
-    torRend.setSize(r.width, r.height, false);
-    torCam.aspect = r.width / r.height; torCam.updateProjectionMatrix();
-  }
-  resizeTor(); window.addEventListener('resize', resizeTor);
-
-  const sGeo = new THREE.IcosahedronGeometry(1.1, 2);
-  const sMat = new THREE.MeshBasicMaterial({ color: 0xd4a574, wireframe: true, transparent: true, opacity: 0.7 });
-  const sphere = new THREE.Mesh(sGeo, sMat); torScene.add(sphere);
-  const gGeo = new THREE.SphereGeometry(0.9, 32, 32);
-  const gMat = new THREE.MeshBasicMaterial({ color: 0xe8b574, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending });
-  torScene.add(new THREE.Mesh(gGeo, gMat));
-
-  const orbCount = 150;
-  const orbPos = new Float32Array(orbCount * 3);
-  for (let i = 0; i < orbCount; i++) {
-    const r = 1.4 + Math.random() * 0.7, th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1);
-    orbPos[i*3] = r * Math.sin(ph) * Math.cos(th);
-    orbPos[i*3+1] = r * Math.sin(ph) * Math.sin(th);
-    orbPos[i*3+2] = r * Math.cos(ph);
-  }
-  const orbGeo = new THREE.BufferGeometry();
-  orbGeo.setAttribute('position', new THREE.BufferAttribute(orbPos, 3));
-  const orbMat = new THREE.PointsMaterial({ color: 0xc2410c, size: 0.03, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
-  torScene.add(new THREE.Points(orbGeo, orbMat));
-
-  let torVisible = false;
-  new IntersectionObserver((e) => { torVisible = e[0].isIntersecting; }, { threshold: 0 }).observe(document.querySelector('.torrefaction'));
-
-  const clk = new THREE.Clock();
-  function animTor() {
-    requestAnimationFrame(animTor);
-    if (!torVisible) return;
-    const t = clk.getElapsedTime();
-    sphere.rotation.x = t * 0.2; sphere.rotation.y = t * 0.3;
-    torRend.render(torScene, torCam);
-  }
-  animTor();
-}
-
-// === FAQ ===
-document.querySelectorAll('.faq-item').forEach(item => {
-  item.querySelector('.faq-q').addEventListener('click', () => {
-    document.querySelectorAll('.faq-item').forEach(i => { if (i !== item) i.classList.remove('open'); });
-    item.classList.toggle('open');
-  });
-});
-
-// === FORM SUBMISSION ===
-const engageForm = document.getElementById('engage-form');
-const submitBtn = document.getElementById('submit-btn');
-const toast = document.getElementById('toast');
-const toastText = toast.querySelector('.toast-text');
-const toastIcon = toast.querySelector('i');
-
-engageForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  submitBtn.disabled = true;
-  submitBtn.querySelector('.btn-text').textContent = 'Sending...';
-
-  try {
-    const formData = new FormData(engageForm);
-    const response = await fetch(engageForm.action, {
-      method: 'POST', body: formData, headers: { 'Accept': 'application/json' }
+// FAQ Accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('open');
     });
-    if (response.ok) {
-      toastIcon.className = 'fas fa-check-circle';
-      toastText.textContent = 'Brief received. We will contact you within 48 hours.';
-      toast.classList.remove('error');
-      engageForm.reset();
-    } else {
-      throw new Error('Send failed');
-    }
-  } catch (err) {
-    // Fallback: open WhatsApp with pre-filled message
-    const name = encodeURIComponent(engageForm.querySelector('[name="name"]').value || '');
-    const org = encodeURIComponent(engageForm.querySelector('[name="organization"]').value || '');
-    const phone = encodeURIComponent(engageForm.querySelector('[name="phone"]').value || '');
-    const req = encodeURIComponent(engageForm.querySelector('[name="requirement_type"]').value || '');
-    const msg = encodeURIComponent(engageForm.querySelector('[name="message"]').value || '');
-    const waMsg = `New Brief from ACVR Website%0A%0AName: ${name}%0AOrganization: ${org}%0APhone: ${phone}%0ARequirement: ${req}%0A%0ADetails: ${msg}`;
-    toastIcon.className = 'fas fa-exclamation-circle';
-    toastText.textContent = 'Could not send automatically. Opening WhatsApp...';
-    toast.classList.add('error');
-    window.open(`https://wa.me/919686682258?text=${waMsg}`, '_blank');
-  }
-
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 6000);
-  submitBtn.disabled = false;
-  submitBtn.querySelector('.btn-text').textContent = 'Send Project Brief';
 });
 
+// Preloader Hide
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('preloader')?.classList.add('done');
+    }, 600);
+});
 </script>
 </body>
 </html>
